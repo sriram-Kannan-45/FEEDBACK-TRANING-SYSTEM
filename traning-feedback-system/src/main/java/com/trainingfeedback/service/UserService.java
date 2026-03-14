@@ -2,11 +2,12 @@ package com.trainingfeedback.service;
 
 import java.util.Scanner;
 import com.trainingfeedback.model.*;
-
+import com.trainingfeedback.controller.TrainerDashboard;
 
 public class UserService {
 
     Scanner sc = new Scanner(System.in);
+    
     public void trainerLogin() {
 
         System.out.println("Enter Trainer ID:");
@@ -20,9 +21,16 @@ public class UserService {
             if (t.getId() == id && t.getPassword().equals(pass)) {
 
                 if (t.isApproved()) {
+
                     System.out.println("Trainer Login Success");
+
+                    TrainerDashboard td = new TrainerDashboard();
+                    td.menu(t);
+
                 } else {
+
                     System.out.println("Trainer not approved by Admin");
+
                 }
 
                 return;
