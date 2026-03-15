@@ -10,4 +10,5 @@ public class DataStorage
 
     public static ArrayList<Trainer> trainers = new ArrayList<>();
     public static ArrayList<Participant> participants = new ArrayList<>();
+    public static List<Survey> surveys = new ArrayList<>();
 }
