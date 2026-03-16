@@ -10,18 +10,18 @@ public class MainSystem {
         Scanner sc = new Scanner(System.in);
         UserService service = new UserService();
 
-        while (true) {
+        while(true){
 
             System.out.println("\n===== Training Feedback System =====");
-            System.out.println("Who are you?");
-            System.out.println("1. Admin");
-            System.out.println("2. Trainer");
-            System.out.println("3. Participant");
-            System.out.println("4. Exit");
+            System.out.println("1 Admin");
+            System.out.println("2 Trainer");
+            System.out.println("3 Student");
+            System.out.println("4 Exit");
 
+            System.out.print("Choice : ");
             int role = sc.nextInt();
 
-            switch (role) {
+            switch(role){
 
                 case 1:
                     service.adminLogin();
@@ -33,18 +33,18 @@ public class MainSystem {
 
                 case 3:
 
-                    System.out.println("\n1. Login");
-                    System.out.println("2. Register");
+                    System.out.println("1 Login");
+                    System.out.println("2 Register");
 
-                    int choice = sc.nextInt();
+                    System.out.print("Choice : ");
+                    int c = sc.nextInt();
 
-                    if (choice == 1) {
+                    if(c==1)
                         service.loginParticipant();
-                    } else if (choice == 2) {
+                    else if(c==2)
                         service.registerParticipant();
-                    } else {
-                        System.out.println("Invalid Choice");
-                    }
+                    else
+                        System.out.println("Invalid choice");
 
                     break;
 
@@ -52,7 +52,7 @@ public class MainSystem {
                     System.exit(0);
 
                 default:
-                    System.out.println("Invalid Choice");
+                    System.out.println("Invalid choice");
             }
         }
     }

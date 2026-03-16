@@ -9,41 +9,32 @@ public class TrainerDashboard {
     Scanner sc = new Scanner(System.in);
     TrainerService service = new TrainerService();
 
-    public void menu(Trainer t) {
+    public void menu(Trainer t){
 
-        while (true) {
+        while(true){
 
             System.out.println("\n===== Trainer Dashboard =====");
-            System.out.println("1. Add Course");
-            System.out.println("2. View Courses");
-            System.out.println("3. Logout");
+            System.out.println("1 View Courses");
+            System.out.println("2 View Students");
+            System.out.println("3 Logout");
 
+            System.out.print("Choice : ");
             int choice = sc.nextInt();
 
-            switch (choice) {
+            switch(choice){
 
                 case 1:
-
-                    System.out.println("Enter Course Name:");
-                    String course = sc.next();
-
-                    service.addCourse(t, course);
-
-                    System.out.println("Course Added Successfully");
-                    break;
-
-                case 2:
-
                     service.viewCourses(t);
                     break;
 
-                case 3:
+                case 2:
+                    service.viewParticipants();
+                    break;
 
-                    System.out.println("Logout Successful");
+                case 3:
                     return;
 
                 default:
-
                     System.out.println("Invalid Choice");
             }
         }

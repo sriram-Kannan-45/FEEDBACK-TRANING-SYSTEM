@@ -4,13 +4,19 @@ import java.util.ArrayList;
 
 public class Trainer extends User {
 
-    private boolean approved;
-    private ArrayList<String> courses;
+    private boolean approved = false;
+    private ArrayList<String> courses = new ArrayList<>();
 
     public Trainer(int id, String name, String password) {
         super(id, name, password);
-        this.approved = false;
-        this.courses = new ArrayList<>();
+    }
+
+    public void addCourse(String course) {
+        courses.add(course);
+    }
+
+    public ArrayList<String> getCourses() {
+        return courses;
     }
 
     public boolean isApproved() {
@@ -21,18 +27,11 @@ public class Trainer extends User {
         this.approved = approved;
     }
 
-    public ArrayList<String> getCourses() {
-        return courses;
-    }
-
-    public void addCourse(String course) {
-        courses.add(course);
-    }
-
     public void display() {
-        System.out.println("Trainer ID: " + getId());
-        System.out.println("Trainer Name: " + getName());
-        System.out.println("Approved: " + approved);
-        System.out.println("Courses: " + courses);
+
+        System.out.println("Trainer ID : " + id);
+        System.out.println("Trainer Name : " + name);
+        System.out.println("Approved : " + approved);
+        System.out.println("Courses : " + courses);
     }
 }
