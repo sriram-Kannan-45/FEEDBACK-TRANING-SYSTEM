@@ -1,9 +1,6 @@
 package com.trainingfeedback.controller;
 
-package com.trainingfeedback.controller;
-
 import java.util.Scanner;
-
 import com.trainingfeedback.model.Participant;
 import com.trainingfeedback.service.ParticipantService;
 
@@ -12,31 +9,30 @@ public class ParticipantDashboard {
     Scanner sc = new Scanner(System.in);
     ParticipantService service = new ParticipantService();
 
-    public void menu(Participant p) {
+    public void menu(Participant p){
 
-        while (true) {
+        while(true){
 
-            System.out.println("\n===== Participant Dashboard =====");
-            System.out.println("1. View Profile");
-            System.out.println("2. Submit Feedback");
-            System.out.println("3. View Feedback History");
-            System.out.println("4. Logout");
+            System.out.println("\n===== Student Dashboard =====");
+            System.out.println("1 View Profile");
+            System.out.println("2 Submit Feedback");
+            System.out.println("3 View Feedback");
+            System.out.println("4 Logout");
 
+            System.out.print("Choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
 
-            switch (choice) {
+            switch(choice){
 
                 case 1:
                     service.viewProfile(p);
                     break;
 
                 case 2:
-
-                    System.out.println("Enter your feedback:");
-                    String feedback = sc.nextLine();
-
-                    service.submitFeedback(p, feedback);
+                    System.out.print("Feedback : ");
+                    String fb = sc.nextLine();
+                    service.submitFeedback(p,fb);
                     break;
 
                 case 3:
@@ -44,7 +40,7 @@ public class ParticipantDashboard {
                     break;
 
                 case 4:
-                    System.out.println("Logout Successful");
+                    System.out.println("Logout Success");
                     return;
 
                 default:
@@ -53,4 +49,3 @@ public class ParticipantDashboard {
         }
     }
 }
-

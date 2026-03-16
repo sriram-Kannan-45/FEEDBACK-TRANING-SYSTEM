@@ -5,56 +5,48 @@ import com.trainingfeedback.service.AdminService;
 
 public class AdminDashboard {
 
-    private AdminService adminService;
-    private Scanner sc;
+    public void menu(){
 
-    public AdminDashboard() {
-        adminService = new AdminService();
-        sc = new Scanner(System.in);
-    }
+        Scanner sc = new Scanner(System.in);
+        AdminService service = new AdminService();
 
-    public void showDashboard() {
-        int choice = -1;
-        
-        do {
+        while(true){
+
             System.out.println("\n===== Admin Dashboard =====");
-            System.out.println("1. Manage Feedback Surveys");
-            System.out.println("2. Manage Participants");
-            System.out.println("3. View Trainers / Approve Trainers");
-            System.out.println("4. Feedback Analysis & Reports");
-            System.out.println("5. Instructor Evaluations");
-            System.out.println("6. View Dashboard Metrics");
-            System.out.println("0. Exit");
-            System.out.print("Enter your choice: ");
-            choice = sc.nextInt();
-            sc.nextLine(); // consume newline
-            
-            switch (choice) {
-            case 1:
-                manageFeedbackSurveys();
-                break;
-            case 2:
-                manageParticipants();
-                break;
-            case 3:
-                manageTrainers();
-                break;
-            case 4:
-                generateReports();
-                break;
-            case 5:
-                viewInstructorEvaluations();
-                break;
-            case 6:
-                viewDashboardMetrics();
-                break;
-            case 0:
-                System.out.println("Exiting Admin Dashboard...");
-                break;
-            default:
-                System.out.println("Invalid choice! Try again.");
-                
-        } 
-        } while (choice != 0);
+            System.out.println("1 Create Trainer");
+            System.out.println("2 View Trainers");
+            System.out.println("3 View Students");
+            System.out.println("4 Approve Trainer");
+            System.out.println("5 Logout");
+
+            System.out.print("Choice : ");
+            int choice = sc.nextInt();
+
+            switch(choice){
+
+                case 1:
+                    service.createTrainer();
+                    break;
+
+                case 2:
+                    service.viewTrainers();
+                    break;
+
+                case 3:
+                    service.viewParticipants();
+                    break;
+
+                case 4:
+                    service.approveTrainer();
+                    break;
+
+                case 5:
+                    return;
+
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+
     }
-    }
+}

@@ -1,38 +1,57 @@
 package com.trainingfeedback.service;
 
-import com.trainingfeedback.model.Trainer;
-import com.trainingfeedback.model.Participant;
+import java.util.Scanner;
+import com.trainingfeedback.model.*;
 
 public class AdminService {
 
-    // View Participants
-    public void viewParticipants() {
+    Scanner sc = new Scanner(System.in);
 
-        System.out.println("\nParticipant List");
+    public void createTrainer(){
 
-        for (Participant p : DataStorage.participants) {
-            p.display();
-        }
+        System.out.print("Trainer ID : ");
+        int id = sc.nextInt();
+
+        System.out.print("Trainer Name : ");
+        String name = sc.next();
+
+        System.out.print("Password : ");
+        String pass = sc.next();
+
+        System.out.print("Course : ");
+        String course = sc.next();
+
+        Trainer t = new Trainer(id,name,pass);
+        t.addCourse(course);
+
+        DataStorage.trainers.add(t);
+
+        System.out.println("Trainer Created");
     }
 
-    // View Trainers
-    public void viewTrainers() {
+    public void viewTrainers(){
 
-        System.out.println("\nTrainer List");
-
-        for (Trainer t : DataStorage.trainers) {
+        for(Trainer t:DataStorage.trainers)
             t.display();
-        }
     }
 
-    // Approve Trainer
-    public void approveTrainer(int id) {
+    public void viewParticipants(){
 
-        for (Trainer t : DataStorage.trainers) {
+        for(Participant p:DataStorage.participants)
+            p.display();
+    }
 
-            if (t.getId() == id) {
+    public void approveTrainer(){
+
+        System.out.print("Trainer ID : ");
+        int id = sc.nextInt();
+
+        for(Trainer t:DataStorage.trainers){
+
+            if(t.getId()==id){
+
                 t.setApproved(true);
-                System.out.println("Trainer Approved Successfully");
+                System.out.println("Trainer Approved");
                 return;
             }
         }
