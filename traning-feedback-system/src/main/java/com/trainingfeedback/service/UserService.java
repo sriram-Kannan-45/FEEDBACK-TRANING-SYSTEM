@@ -1,7 +1,6 @@
 package com.trainingfeedback.service;
 
 import java.util.Scanner;
-
 import com.trainingfeedback.model.*;
 import com.trainingfeedback.controller.*;
 
@@ -38,26 +37,22 @@ public class UserService {
         System.out.print("Password : ");
         String pass = sc.next();
 
-        for(Trainer t:DataStorage.trainers){
+        Trainer t = DataStorage.trainers.get(id);
 
-            if(t.getId()==id && t.getPassword().equals(pass)){
+        if(t != null && t.getPassword().equals(pass)){
 
-                if(t.isApproved()){
+            if(t.isApproved()){
+                System.out.println("Trainer Login Success ");
 
-                    System.out.println("Trainer Login Success");
-
-                    TrainerDashboard td = new TrainerDashboard();
-                    td.menu(t);
-                }
-                else{
-                    System.out.println("Trainer Not Approved");
-                }
-
-                return;
+                TrainerDashboard td = new TrainerDashboard();
+                td.menu(t);
+            } else {
+                System.out.println("Trainer Not Approved ");
             }
-        }
 
-        System.out.println("Unauthorized Access");
+        } else {
+            System.out.println("Unauthorized Access ");
+        }
     }
 
     public void registerParticipant(){
@@ -87,7 +82,7 @@ public class UserService {
 
         DataStorage.participants.add(p);
 
-        System.out.println("Registration Successful");
+        System.out.println("Registration Successful ✅");
     }
 
     public void loginParticipant(){
@@ -111,6 +106,6 @@ public class UserService {
             }
         }
 
-        System.out.println("Unauthorized Access");
+        System.out.println("Unauthorized Access ❌");
     }
 }
