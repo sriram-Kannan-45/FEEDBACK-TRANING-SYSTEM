@@ -12,6 +12,12 @@ public class AdminService {
         System.out.print("Trainer ID : ");
         int id = sc.nextInt();
 
+        // ✅ ONLY ID CHECK
+        if(DataStorage.trainers.containsKey(id)){
+            System.out.println("Error: Trainer ID already exists!");
+            return;
+        }
+
         System.out.print("Trainer Name : ");
         String name = sc.next();
 
@@ -24,21 +30,21 @@ public class AdminService {
         Trainer t = new Trainer(id,name,pass);
         t.addCourse(course);
 
-        DataStorage.trainers.add(t);
+        DataStorage.trainers.put(id, t);
 
-        System.out.println("Trainer Created");
+        System.out.println("Trainer Created Successfully ✅");
     }
 
     public void viewTrainers(){
-
-        for(Trainer t:DataStorage.trainers)
+        for(Trainer t : DataStorage.trainers.values()){
             t.display();
+        }
     }
 
     public void viewParticipants(){
-
-        for(Participant p:DataStorage.participants)
+        for(Participant p:DataStorage.participants){
             p.display();
+        }
     }
 
     public void approveTrainer(){
@@ -46,16 +52,13 @@ public class AdminService {
         System.out.print("Trainer ID : ");
         int id = sc.nextInt();
 
-        for(Trainer t:DataStorage.trainers){
+        Trainer t = DataStorage.trainers.get(id);
 
-            if(t.getId()==id){
-
-                t.setApproved(true);
-                System.out.println("Trainer Approved");
-                return;
-            }
+        if(t != null){
+            t.setApproved(true);
+            System.out.println("Trainer Approved ✅");
+        } else {
+            System.out.println("Trainer not found ❌");
         }
-
-        System.out.println("Trainer not found");
     }
 }
