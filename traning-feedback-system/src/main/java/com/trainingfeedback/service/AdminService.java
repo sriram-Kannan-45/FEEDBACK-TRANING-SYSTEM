@@ -12,7 +12,7 @@ public class AdminService {
         System.out.print("Trainer ID : ");
         int id = sc.nextInt();
 
-       
+        // ✅ ONLY ID CHECK
         if(DataStorage.trainers.containsKey(id)){
             System.out.println("Error: Trainer ID already exists!");
             return;
@@ -32,7 +32,7 @@ public class AdminService {
 
         DataStorage.trainers.put(id, t);
 
-        System.out.println("Trainer Created Successfully ");
+        System.out.println("Trainer Created Successfully ✅");
     }
 
     public void viewTrainers(){
@@ -56,9 +56,9 @@ public class AdminService {
 
         if(t != null){
             t.setApproved(true);
-            System.out.println("Trainer Approved ");
+            System.out.println("Trainer Approved ✅");
         } else {
-            System.out.println("Trainer not found ");
+            System.out.println("Trainer not found ❌");
         }
     }
 }

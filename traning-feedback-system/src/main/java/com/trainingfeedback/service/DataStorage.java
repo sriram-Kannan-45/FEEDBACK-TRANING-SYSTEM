@@ -9,7 +9,7 @@ public class DataStorage {
 
     public static Admin admin = new Admin(1,"admin","admin123");
 
-    
+    // ✅ Map for Trainer (ID → Trainer)
     public static Map<Integer, Trainer> trainers = new HashMap<>();
 
     public static ArrayList<Participant> participants = new ArrayList<>();
