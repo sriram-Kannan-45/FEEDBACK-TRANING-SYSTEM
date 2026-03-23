@@ -12,5 +12,7 @@ public class DataStorage {
     // ✅ Map for Trainer (ID → Trainer)
     public static Map<Integer, Trainer> trainers = new HashMap<>();
 
+    public static Map<Integer, TrainingSession> sessions = new HashMap<>();
+    
     public static ArrayList<Participant> participants = new ArrayList<>();
 }

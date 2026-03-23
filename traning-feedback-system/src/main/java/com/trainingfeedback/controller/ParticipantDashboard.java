@@ -30,9 +30,7 @@ public class ParticipantDashboard {
                     break;
 
                 case 2:
-                    System.out.print("Feedback : ");
-                    String fb = sc.nextLine();
-                    service.submitFeedback(p,fb);
+                    service.submitFeedback(p);
                     break;
 
                 case 3:
@@ -43,6 +41,7 @@ public class ParticipantDashboard {
                     System.out.println("Logout Success");
                     return;
 
+                    
                 default:
                     System.out.println("Invalid Choice");
             }
