@@ -32,7 +32,7 @@ public class AdminService {
 
 		DataStorage.trainers.put(id, t);
 
-		System.out.println("Trainer Created Successfully ✅");
+		System.out.println("Trainer Created Successfully ");
 	}
 	
 	
@@ -61,18 +61,18 @@ public class AdminService {
 		Trainer t = DataStorage.trainers.get(tid);
 
 		if (ts == null || t == null) {
-			System.out.println("Invalid IDs ❌");
+			System.out.println("Invalid IDs ");
 			return;
 		}
 
 		if (!t.isApproved()) {
-			System.out.println("Trainer not approved ❌");
+			System.out.println("Trainer not approved ");
 			return;
 		}
 
 		ts.assignTrainer(t);
 
-		System.out.println("Trainer Assigned ✅");
+		System.out.println("Trainer Assigned ");
 	}
 
 	public void createSession() {
@@ -92,7 +92,7 @@ public class AdminService {
 
 		DataStorage.sessions.put(id, ts);
 
-		System.out.println("Session Created ✅");
+		System.out.println("Session Created ");
 	}
 
 	public void viewTrainers() {
@@ -116,9 +116,9 @@ public class AdminService {
 
 		if (t != null) {
 			t.setApproved(true);
-			System.out.println("Trainer Approved ✅");
+			System.out.println("Trainer Approved ");
 		} else {
-			System.out.println("Trainer not found ❌");
+			System.out.println("Trainer not found ");
 		}
 	}
 }
