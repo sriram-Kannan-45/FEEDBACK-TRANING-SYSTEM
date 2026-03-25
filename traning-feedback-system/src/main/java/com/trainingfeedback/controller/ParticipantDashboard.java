@@ -15,7 +15,7 @@ public class ParticipantDashboard {
 
             System.out.println("\n===== Student Dashboard =====");
             System.out.println("1 View Profile");
-            System.out.println("2 Submit Feedback");
+            System.out.println("2 Submit Feedback"); // 🔥 THIS OPTION
             System.out.println("3 View Feedback");
             System.out.println("4 Logout");
 
@@ -30,7 +30,7 @@ public class ParticipantDashboard {
                     break;
 
                 case 2:
-                    service.submitFeedback(p);
+                    service.submitFeedback(p); // 🔥 THIS CALL
                     break;
 
                 case 3:
@@ -41,7 +41,6 @@ public class ParticipantDashboard {
                     System.out.println("Logout Success");
                     return;
 
-                    
                 default:
                     System.out.println("Invalid Choice");
             }

@@ -21,11 +21,10 @@ public class UserService {
 
             System.out.println("Login Success");
 
-            AdminDashboard ad = new AdminDashboard();
-            ad.menu();
+            new AdminDashboard().menu();
         }
         else{
-            System.out.println("Unauthorized Access");
+            System.out.println("Unauthorized");
         }
     }
 
@@ -42,22 +41,42 @@ public class UserService {
         if(t != null && t.getPassword().equals(pass)){
 
             if(t.isApproved()){
-                System.out.println("Trainer Login Success ");
-
-                TrainerDashboard td = new TrainerDashboard();
-                td.menu(t);
+                System.out.println("Trainer Login Success");
+                new TrainerDashboard().menu(t);
             } else {
-                System.out.println("Trainer Not Approved ");
+                System.out.println("Trainer Not Approved");
             }
 
         } else {
-            System.out.println("Unauthorized Access ");
+            System.out.println("Invalid Login");
+        }
+    }
+
+    // 🔥 LOGIN + REGISTER COMBINED
+    public void loginOrRegisterParticipant() {
+
+        System.out.println("1 Login");
+        System.out.println("2 Register");
+
+        int ch = sc.nextInt();
+
+        if(ch==2){
+            registerParticipant();
+
+            System.out.println("Please Login Now");
+            loginParticipant(); // 🔥 direct login flow
+        }
+        else if(ch==1){
+            loginParticipant();
+        }
+        else{
+            System.out.println("Invalid Choice");
         }
     }
 
     public void registerParticipant(){
 
-        System.out.print("ID : ");
+        System.out.print("College ID : ");
         int id = sc.nextInt();
 
         System.out.print("Name : ");
@@ -69,7 +88,7 @@ public class UserService {
         System.out.print("Email : ");
         String email = sc.next();
 
-        System.out.print("Department : ");
+        System.out.print("Dept : ");
         String dept = sc.next();
 
         System.out.print("College : ");
@@ -82,12 +101,13 @@ public class UserService {
 
         DataStorage.participants.add(p);
 
-        System.out.println("Registration Successful ");
+        System.out.println("Registration Successful");
     }
 
+   
     public void loginParticipant(){
 
-        System.out.print("ID : ");
+        System.out.print("College ID : ");
         int id = sc.nextInt();
 
         System.out.print("Password : ");
@@ -99,13 +119,13 @@ public class UserService {
 
                 System.out.println("Login Success");
 
-                ParticipantDashboard pd = new ParticipantDashboard();
-                pd.menu(p);
+               
+                new ParticipantDashboard().menu(p);
 
                 return;
             }
         }
 
-        System.out.println("Unauthorized Access ");
+        System.out.println("Invalid Login");
     }
 }

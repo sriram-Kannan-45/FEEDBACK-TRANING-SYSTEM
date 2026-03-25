@@ -1,4 +1,4 @@
-package sample;
+package com.trainingfeedback.Demo.src.sample;
 import java.util.Scanner;
 
 public class TestUnit {

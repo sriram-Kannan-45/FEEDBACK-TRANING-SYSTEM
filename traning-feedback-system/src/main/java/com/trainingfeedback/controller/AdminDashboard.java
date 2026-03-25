@@ -20,20 +20,52 @@ public class AdminDashboard {
             System.out.println("5 Create Session");
             System.out.println("6 Assign Trainer");
             System.out.println("7 View Reports");
-            System.out.println("8 Logout");
+            System.out.println("8 View Sessions");
+            System.out.println("9 Logout");
 
+            System.out.print("Choice : ");
             int choice = sc.nextInt();
 
             switch (choice) {
-                case 1: service.createTrainer(); break;
-                case 2: service.viewTrainers(); break;
-                case 3: service.viewParticipants(); break;
-                case 4: service.approveTrainer(); break;
-                case 5: service.createSession(); break;
-                case 6: service.assignTrainer(); break;
-                case 7: service.viewReports(); break;
-                case 8: return;
-                default: System.out.println("Invalid Choice");
+
+                case 1:
+                    service.createTrainer();
+                    break;
+
+                case 2:
+                    service.viewTrainers();
+                    break;
+
+                case 3:
+                    service.viewParticipants();
+                    break;
+
+                case 4:
+                    service.approveTrainer();
+                    break;
+
+                case 5:
+                    service.createSession();
+                    break;
+
+                case 6:
+                    service.assignTrainer();
+                    break;
+
+                case 7:
+                    service.viewReports();
+                    break;
+
+                case 8:
+                    service.viewSessions();
+                    break;
+
+                case 9:
+                    System.out.println("Logout Success");
+                    return;
+
+                default:
+                    System.out.println("Invalid Choice");
             }
         }
     }

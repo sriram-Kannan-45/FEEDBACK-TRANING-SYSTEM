@@ -32,20 +32,7 @@ public class MainSystem {
                     break;
 
                 case 3:
-
-                    System.out.println("1 Login");
-                    System.out.println("2 Register");
-
-                    System.out.print("Choice : ");
-                    int c = sc.nextInt();
-
-                    if(c==1)
-                        service.loginParticipant();
-                    else if(c==2)
-                        service.registerParticipant();
-                    else
-                        System.out.println("Invalid choice");
-
+                    service.loginOrRegisterParticipant();
                     break;
 
                 case 4:
