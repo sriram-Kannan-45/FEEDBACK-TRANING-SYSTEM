@@ -5,4 +5,14 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>traning-feedback-system</name>
   <description>CLI for traning-feedback-system</description>
+  
+ <dependencies>
+    <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.33</version>
+</dependency>
+ </dependencies>
+  
+ 
 </project>

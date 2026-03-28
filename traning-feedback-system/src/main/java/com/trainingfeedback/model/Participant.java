@@ -23,7 +23,6 @@ public class Participant extends User {
     }
 
     public void display() {
-
         System.out.println("ID: "+id);
         System.out.println("Name: "+name);
         System.out.println("Email: "+email);
@@ -39,4 +38,11 @@ public class Participant extends User {
     public ArrayList<String> getFeedbackList() {
         return feedbackList;
     }
+
+    // ✅ ADD THESE
+    public String getEmail() { return email; }
+    public String getDept() { return dept; }
+    public String getCollege() { return college; }
+    public String getCourse() { return course; }
 }
+
