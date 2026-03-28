@@ -42,16 +42,16 @@ public class UserService {
         if(t != null && t.getPassword().equals(pass)){
 
             if(t.isApproved()){
-                System.out.println("Trainer Login Success ✅");
+                System.out.println("Trainer Login Success ");
 
                 TrainerDashboard td = new TrainerDashboard();
                 td.menu(t);
             } else {
-                System.out.println("Trainer Not Approved ❌");
+                System.out.println("Trainer Not Approved ");
             }
 
         } else {
-            System.out.println("Unauthorized Access ❌");
+            System.out.println("Unauthorized Access ");
         }
     }
 
@@ -82,7 +82,7 @@ public class UserService {
 
         DataStorage.participants.add(p);
 
-        System.out.println("Registration Successful ✅");
+        System.out.println("Registration Successful ");
     }
 
     public void loginParticipant(){
@@ -106,6 +106,6 @@ public class UserService {
             }
         }
 
-        System.out.println("Unauthorized Access ❌");
+        System.out.println("Unauthorized Access ");
     }
 }

@@ -16,12 +16,12 @@ public class ParticipantService {
         TrainingSession ts = DataStorage.sessions.get(sid);
 
         if (ts == null) {
-            System.out.println("Invalid Session ❌");
+            System.out.println("Invalid Session ");
             return;
         }
 
         if (ts.hasGivenFeedback(p.getId())) {
-            System.out.println("Already Submitted ❌");
+            System.out.println("Already Submitted ");
             return;
         }
 
@@ -38,7 +38,7 @@ public class ParticipantService {
 
         ts.addFeedback(p.getId(), fb);
 
-        System.out.println("Feedback Submitted ✅");
+        System.out.println("Feedback Submitted ");
     }
 
     public void viewProfile(Participant p) {
@@ -46,6 +46,6 @@ public class ParticipantService {
     }
 
     public void viewFeedback(Participant p) {
-        System.out.println("👉 Feedback is stored per session now");
+        System.out.println("Feedback is stored per session now");
     }
 }
