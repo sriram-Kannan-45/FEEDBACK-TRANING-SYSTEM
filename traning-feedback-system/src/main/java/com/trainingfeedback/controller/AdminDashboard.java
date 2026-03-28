@@ -5,52 +5,37 @@ import com.trainingfeedback.service.AdminService;
 
 public class AdminDashboard {
 
-	public void showDashboard() {
-		int choice = -1;
-		do {
-			System.out.println("\n===== Admin Dashboard =====");
-			System.out.println("1. Manage Feedback Surveys");
-			System.out.println("2. Create Feedback Surveys");
-			System.out.println("3. Manage Participants");
-			System.out.println("4. View participant");
-			System.out.println("5. Manage Trainers");
-			System.out.println("6. View Trainers");
-			System.out.println("7. Generate Reports");
-			System.out.println("0. Exit");
-			System.out.print("Enter your choice: ");
-			choice = sc.nextInt();
-			sc.nextLine(); // consume newline
 
-			switch (choice) {
-			case 1:
-				adminService.manageFeedbackSurveys(); // Service handles logic
-				break;
-			case 2:
-				adminService.createFeedbackSurveys(); // Service handles logic
-				break;
-			case 3:
-				adminService.manageParticipants(); // Service handles logic
-				break;
-			case 4:
-				adminService.viewParticipants(); // Service handles logic
-				break;
-			case 5:
-				adminService.manageTrainers(); // Service handles logic
-				break;
-			case 6:
-				adminService.viewTrainers(); // Service handles logic
-				break;
-			case 7:
-				adminService.generateReports(); // Service handles logic
-				break;
-			case 0:
-				System.out.println("Exiting Admin Dashboard...");
-				break;
-			default:
-				System.out.println("Invalid choice!");
-			}
+    public void menu() {
 
-		} while (choice != 0);
-	}
+        Scanner sc = new Scanner(System.in);
+        AdminService service = new AdminService();
 
+        while (true) {
+
+            System.out.println("\n===== Admin Dashboard =====");
+            System.out.println("1 Create Trainer");
+            System.out.println("2 View Trainers");
+            System.out.println("3 View Students");
+            System.out.println("4 Approve Trainer");
+            System.out.println("5 Create Session");
+            System.out.println("6 Assign Trainer");
+            System.out.println("7 View Reports");
+            System.out.println("8 Logout");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1: service.createTrainer(); break;
+                case 2: service.viewTrainers(); break;
+                case 3: service.viewParticipants(); break;
+                case 4: service.approveTrainer(); break;
+                case 5: service.createSession(); break;
+                case 6: service.assignTrainer(); break;
+                case 7: service.viewReports(); break;
+                case 8: return;
+                default: System.out.println("Invalid Choice");
+            }
+        }
+    }
 }

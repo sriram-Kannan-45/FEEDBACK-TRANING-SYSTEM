@@ -1,7 +1,7 @@
 package com.trainingfeedback.service;
-
-import com.trainingfeedback.model.Trainer;
-import com.trainingfeedback.model.Participant;
+import com.trainingfeedback.model.TrainingSession;
+import java.util.Scanner;
+import com.trainingfeedback.model.*;
 
 package service;
 
@@ -11,166 +11,118 @@ public class AdminService {
 
 	Scanner sc = new Scanner(System.in);
 
-	// Case 1
-	public void manageFeedbackSurveys() {
+	public void createTrainer() {
 
-		System.out.println("1. View Surveys");
-		System.out.println("2. Delete Survey");
-		int choice = sc.nextInt();
-		sc.nextLine();
+		System.out.print("Trainer ID : ");
+		int id = sc.nextInt();
 
-		switch (choice) {
-
-		case 1:
-			if (surveys.isEmpty()) {
-				System.out.println("No surveys available");
-			} else {
-				for (String s : surveys) {
-					System.out.println(s);
-				}
-			}
-			break;
-
-		case 2:
-			System.out.print("Enter survey name to delete: ");
-			String name = sc.nextLine();
-
-			if (surveys.remove(name)) {
-				System.out.println("Survey deleted");
-			} else {
-				System.out.println("Survey not found");
-			}
-			break;
-		}
-	}
-
-	// Case 2
-	public void createFeedbackSurveys() {
-
-		System.out.print("Enter Survey Name: ");
-		String surveyName = sc.nextLine();
-
-		surveys.add(surveyName);
-
-		System.out.println("Survey created successfully");
-
-		createQuestions(); // calling another method
-	}
-
-	public void createQuestions() {
-
-		ArrayList<String> questions = new ArrayList<>();
-
-		System.out.println("Enter number of questions:");
-		int n = sc.nextInt();
-		sc.nextLine();
-
-		for (int i = 1; i <= n; i++) {
-
-			System.out.print("Enter Question " + i + ": ");
-			String q = sc.nextLine();
-			questions.add(q);
+		// ✅ ONLY ID CHECK
+		if (DataStorage.trainers.containsKey(id)) {
+			System.out.println("Error: Trainer ID already exists!");
+			return;
 		}
 
-		System.out.println("Questions added successfully");
+		System.out.print("Trainer Name : ");
+		String name = sc.next();
 
-		System.out.println("Survey Questions:");
-		for (String q : questions) {
-			System.out.println(q);
-		}
+		System.out.print("Password : ");
+		String pass = sc.next();
+
+		System.out.print("Course : ");
+		String course = sc.next();
+
+		Trainer t = new Trainer(id, name, pass);
+		t.addCourse(course);
+
+		DataStorage.trainers.put(id, t);
+
+		System.out.println("Trainer Created Successfully ✅");
+	}
+	
+	
+	public void viewReports(){
+
+	    for(TrainingSession ts : DataStorage.sessions.values()){
+
+	        System.out.println("\nSession: " + ts.getTitle());
+
+	        if(ts.getTrainer()!=null)
+	            System.out.println("Trainer: " + ts.getTrainer().getName());
+
+	        ts.viewFeedback();
+	    }
 	}
 
-	// Case 3
-	public void manageParticipants() {
+	public void assignTrainer() {
 
-		System.out.println("1. Add Participant");
-		System.out.println("2. Remove Participant");
-		int choice = sc.nextInt();
-		sc.nextLine();
+		System.out.print("Session ID: ");
+		int sid = sc.nextInt();
 
-		switch (choice) {
+		System.out.print("Trainer ID: ");
+		int tid = sc.nextInt();
 
-		case 1:
-			System.out.print("Enter participant name: ");
-			String name = sc.nextLine();
-			participants.add(name);
-			System.out.println("Participant added");
-			break;
+		TrainingSession ts = DataStorage.sessions.get(sid);
+		Trainer t = DataStorage.trainers.get(tid);
 
-		case 2:
-			System.out.print("Enter participant name to remove: ");
-			String remove = sc.nextLine();
-
-			if (participants.remove(remove)) {
-				System.out.println("Participant removed");
-			} else {
-				System.out.println("Participant not found");
-			}
-			break;
+		if (ts == null || t == null) {
+			System.out.println("Invalid IDs ❌");
+			return;
 		}
+
+		if (!t.isApproved()) {
+			System.out.println("Trainer not approved ❌");
+			return;
+		}
+
+		ts.assignTrainer(t);
+
+		System.out.println("Trainer Assigned ✅");
 	}
 
-	// Case 4
-	public void viewParticipants() {
+	public void createSession() {
 
-		if (participants.isEmpty()) {
-			System.out.println("No participants available");
-		} else {
-			for (String p : participants) {
-				System.out.println(p);
-			}
+		System.out.print("Session ID: ");
+		int id = sc.nextInt();
+
+		if (DataStorage.sessions.containsKey(id)) {
+			System.out.println("Session already exists!");
+			return;
 		}
+
+		System.out.print("Session Title: ");
+		String title = sc.next();
+
+		TrainingSession ts = new TrainingSession(id, title);
+
+		DataStorage.sessions.put(id, ts);
+
+		System.out.println("Session Created ✅");
 	}
 
-	// Case 5
-	public void manageTrainers() {
-
-		System.out.println("1. Add Trainer");
-		System.out.println("2. Remove Trainer");
-		int choice = sc.nextInt();
-		sc.nextLine();
-
-		switch (choice) {
-
-		case 1:
-			System.out.print("Enter trainer name: ");
-			String trainer = sc.nextLine();
-			trainers.add(trainer);
-			System.out.println("Trainer added");
-			break;
-
-		case 2:
-			System.out.print("Enter trainer name to remove: ");
-			String remove = sc.nextLine();
-
-			if (trainers.remove(remove)) {
-				System.out.println("Trainer removed");
-			} else {
-				System.out.println("Trainer not found");
-			}
-			break;
-		}
-	}
-
-	// Case 6
 	public void viewTrainers() {
-
-		if (trainers.isEmpty()) {
-			System.out.println("No trainers available");
-		} else {
-			for (String t : trainers) {
-				System.out.println(t);
-			}
+		for (Trainer t : DataStorage.trainers.values()) {
+			t.display();
 		}
 	}
 
-	// Case 7
-	public void generateReports() {
+	public void viewParticipants() {
+		for (Participant p : DataStorage.participants) {
+			p.display();
+		}
+	}
 
-		System.out.println("------ REPORT ------");
+	public void approveTrainer() {
 
-		System.out.println("Total Surveys: " + surveys.size());
-		System.out.println("Total Participants: " + participants.size());
-		System.out.println("Total Trainers: " + trainers.size());
+		System.out.print("Trainer ID : ");
+		int id = sc.nextInt();
+
+		Trainer t = DataStorage.trainers.get(id);
+
+		if (t != null) {
+			t.setApproved(true);
+			System.out.println("Trainer Approved ✅");
+		} else {
+			System.out.println("Trainer not found ❌");
+		} 
 	}
 }

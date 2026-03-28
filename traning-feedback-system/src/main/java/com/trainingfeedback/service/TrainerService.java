@@ -1,28 +1,29 @@
 package com.trainingfeedback.service;
 
-import com.trainingfeedback.model.Trainer;
+import com.trainingfeedback.model.*;
 
 public class TrainerService {
 
-    public void addCourse(Trainer t, String course) {
-
-        t.addCourse(course);
-        System.out.println("Course added successfully");
-
+    public void viewCourses(Trainer t) {
+        for (String c : t.getCourses()) {
+            System.out.println(c);
+        }
     }
 
-    public void viewCourses(Trainer t) {
+    public void viewParticipants() {
+        for (Participant p : DataStorage.participants) {
+            p.display();
+        }
+    }
 
-        if (t.getCourses().isEmpty()) {
+    public void viewMySessions(Trainer t) {
 
-            System.out.println("No courses assigned");
+        for (TrainingSession ts : DataStorage.sessions.values()) {
 
-        } else {
+            if (ts.getTrainer() == t) {
 
-            System.out.println("Courses handled by Trainer:");
-
-            for (String c : t.getCourses()) {
-                System.out.println(c);
+                System.out.println("\nSession: " + ts.getTitle());
+                ts.viewFeedback();
             }
         }
     }
