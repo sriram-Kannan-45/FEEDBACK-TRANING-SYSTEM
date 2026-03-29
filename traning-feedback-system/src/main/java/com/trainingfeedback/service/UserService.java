@@ -3,6 +3,8 @@ package com.trainingfeedback.service;
 import java.util.Scanner;
 import com.trainingfeedback.model.*;
 import com.trainingfeedback.controller.*;
+import com.trainingfeedback.dbconnection.ParticipantDAO;
+import com.trainingfeedback.dbconnection.UserDAO;
 
 public class UserService {
 
@@ -15,17 +17,17 @@ public class UserService {
 
         System.out.print("Password : ");
         String pass = sc.next();
+        
+        UserDAO dao = new UserDAO();
+        Admin admin = dao.adminLogin(id, pass);
+        
 
-        if(DataStorage.admin.getId()==id &&
-           DataStorage.admin.getPassword().equals(pass)){
-
-            System.out.println("Login Success");
-
+        if (admin != null) {
+            System.out.println("Login Success!");
             AdminDashboard ad = new AdminDashboard();
             ad.menu();
-        }
-        else{
-            System.out.println("Unauthorized Access");
+        } else {
+            System.out.println("Unauthorized Access!");
         }
     }
 
@@ -37,21 +39,19 @@ public class UserService {
         System.out.print("Password : ");
         String pass = sc.next();
 
-        Trainer t = DataStorage.trainers.get(id);
+        UserDAO dao = new UserDAO();
+        Trainer t = dao.trainerLogin(id, pass);
 
-        if(t != null && t.getPassword().equals(pass)){
-
-            if(t.isApproved()){
-                System.out.println("Trainer Login Success ");
-
+        if (t != null) {
+            if (t.isApproved()) {
+                System.out.println("Trainer Login Success!");
                 TrainerDashboard td = new TrainerDashboard();
                 td.menu(t);
             } else {
-                System.out.println("Trainer Not Approved ");
+                System.out.println("Trainer Not Approved!");
             }
-
         } else {
-            System.out.println("Unauthorized Access ");
+            System.out.println("Unauthorized Access!");
         }
     }
 
@@ -78,12 +78,19 @@ public class UserService {
         System.out.print("Course : ");
         String course = sc.next();
 
-        Participant p = new Participant(id,name,pass,email,dept,college,course);
+        Participant p = new Participant(id, name, pass, email, dept, college, course);
 
-        DataStorage.participants.add(p);
+        ParticipantDAO dao = new ParticipantDAO();
+        
+        boolean success = dao.register(p);   // ✅ capture the return value
 
-        System.out.println("Registration Successful ");
+        if (success) {
+            System.out.println("Registration Successful!");
+        } else {
+            System.out.println("Registration Failed! ID may already exist.");
+        }
     }
+    
 
     public void loginParticipant(){
 
@@ -92,20 +99,22 @@ public class UserService {
 
         System.out.print("Password : ");
         String pass = sc.next();
+        
+        UserDAO dao = new UserDAO();
+        Participant p = dao.participantLogin(id, pass);
 
-        for(Participant p:DataStorage.participants){
-
-            if(p.getId()==id && p.getPassword().equals(pass)){
-
-                System.out.println("Login Success");
-
-                ParticipantDashboard pd = new ParticipantDashboard();
-                pd.menu(p);
-
-                return;
-            }
+        if (p != null) {
+            System.out.println("Login Success!");
+            ParticipantDashboard pd = new ParticipantDashboard();
+            pd.menu(p);
+        } else {
+            System.out.println("Unauthorized Access!");
         }
-
-        System.out.println("Unauthorized Access ");
     }
+    
+    
+    
+    
 }
+
+    

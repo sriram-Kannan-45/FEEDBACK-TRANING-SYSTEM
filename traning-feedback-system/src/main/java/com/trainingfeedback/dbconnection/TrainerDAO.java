@@ -25,7 +25,7 @@ public class TrainerDAO {
     // VIEW TRAINER'S OWN SESSIONS
     // replaces → DataStorage.sessions loop in TrainerService
     // ─────────────────────────────────────────
-    public ArrayList<TrainingSession> getMySessionss(int trainerId) {
+    public ArrayList<TrainingSession> getMySessions(int trainerId) {   // ✅ typo fixed (was getMySessionss)
 
         ArrayList<TrainingSession> list = new ArrayList<>();
 

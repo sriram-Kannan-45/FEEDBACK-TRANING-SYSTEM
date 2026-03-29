@@ -1,124 +1,175 @@
 package com.trainingfeedback.service;
-import com.trainingfeedback.model.TrainingSession;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 import com.trainingfeedback.model.*;
+import com.trainingfeedback.dbconnection.AdminDAO;
+import com.trainingfeedback.dbconnection.SessionDAO;
+import com.trainingfeedback.dbconnection.TrainerDAO;
 
 public class AdminService {
 
-	Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
 
-	public void createTrainer() {
+    // ─────────────────────────────────────────
+    // CREATE TRAINER
+    // Before → DataStorage.trainers.put(id, t)
+    // After  → saves to MySQL trainers table via AdminDAO
+    // ─────────────────────────────────────────
+    public void createTrainer() {
 
-		System.out.print("Trainer ID : ");
-		int id = sc.nextInt();
+        System.out.print("Trainer ID : ");
+        int id = sc.nextInt();
 
-		// ✅ ONLY ID CHECK
-		if (DataStorage.trainers.containsKey(id)) {
-			System.out.println("Error: Trainer ID already exists!");
-			return;
-		}
+        System.out.print("Trainer Name : ");
+        String name = sc.next();
 
-		System.out.print("Trainer Name : ");
-		String name = sc.next();
+        System.out.print("Password : ");
+        String pass = sc.next();
 
-		System.out.print("Password : ");
-		String pass = sc.next();
+        System.out.print("Course : ");
+        String course = sc.next();
 
-		System.out.print("Course : ");
-		String course = sc.next();
+        Trainer t = new Trainer(id, name, pass);
 
-		Trainer t = new Trainer(id, name, pass);
-		t.addCourse(course);
+        AdminDAO dao = new AdminDAO();
+        dao.createTrainer(t, course);
+    }
 
-		DataStorage.trainers.put(id, t);
+    // ─────────────────────────────────────────
+    // APPROVE TRAINER
+    // Before → DataStorage.trainers.get(id) → t.setApproved(true)
+    // After  → updates approved = TRUE in MySQL via AdminDAO
+    // ─────────────────────────────────────────
+    public void approveTrainer() {
 
-		System.out.println("Trainer Created Successfully ");
-	}
-	
-	
-	public void viewReports(){
+        System.out.print("Trainer ID : ");
+        int id = sc.nextInt();
 
-	    for(TrainingSession ts : DataStorage.sessions.values()){
+        AdminDAO dao = new AdminDAO();
+        dao.approveTrainer(id);
+    }
 
-	        System.out.println("\nSession: " + ts.getTitle());
+    // ─────────────────────────────────────────
+    // ASSIGN TRAINER TO SESSION
+    // Before → DataStorage.sessions.get() + DataStorage.trainers.get()
+    // After  → validates from MySQL, updates via SessionDAO
+    // ─────────────────────────────────────────
+    public void assignTrainer() {
 
-	        if(ts.getTrainer()!=null)
-	            System.out.println("Trainer: " + ts.getTrainer().getName());
+        System.out.print("Session ID: ");
+        int sid = sc.nextInt();
 
-	        ts.viewFeedback();
-	    }
-	}
+        System.out.print("Trainer ID: ");
+        int tid = sc.nextInt();
 
-	public void assignTrainer() {
+        // validate both exist in DB
+        SessionDAO sessionDAO = new SessionDAO();
+        TrainerDAO trainerDAO = new TrainerDAO();
 
-		System.out.print("Session ID: ");
-		int sid = sc.nextInt();
+        TrainingSession ts = sessionDAO.findById(sid);
+        Trainer t = trainerDAO.findById(tid);
 
-		System.out.print("Trainer ID: ");
-		int tid = sc.nextInt();
+        if (ts == null || t == null) {
+            System.out.println("Invalid IDs!");
+            return;
+        }
 
-		TrainingSession ts = DataStorage.sessions.get(sid);
-		Trainer t = DataStorage.trainers.get(tid);
+        if (!t.isApproved()) {
+            System.out.println("Trainer not approved!");
+            return;
+        }
 
-		if (ts == null || t == null) {
-			System.out.println("Invalid IDs ");
-			return;
-		}
+        sessionDAO.assignTrainer(sid, tid);
+    }
 
-		if (!t.isApproved()) {
-			System.out.println("Trainer not approved ");
-			return;
-		}
+    // ─────────────────────────────────────────
+    // CREATE SESSION
+    // Before → DataStorage.sessions.put(id, ts)
+    // After  → saves to MySQL sessions table via SessionDAO
+    // ─────────────────────────────────────────
+    public void createSession() {
 
-		ts.assignTrainer(t);
+        System.out.print("Session ID: ");
+        int id = sc.nextInt();
 
-		System.out.println("Trainer Assigned ");
-	}
+        System.out.print("Session Title: ");
+        String title = sc.next();
 
-	public void createSession() {
+        TrainingSession ts = new TrainingSession(id, title);
 
-		System.out.print("Session ID: ");
-		int id = sc.nextInt();
+        SessionDAO dao = new SessionDAO();
+        dao.createSession(ts);
+    }
 
-		if (DataStorage.sessions.containsKey(id)) {
-			System.out.println("Session already exists!");
-			return;
-		}
+    // ─────────────────────────────────────────
+    // VIEW ALL TRAINERS
+    // Before → DataStorage.trainers.values()
+    // After  → fetches from MySQL trainers table via AdminDAO
+    // ─────────────────────────────────────────
+    public void viewTrainers() {
 
-		System.out.print("Session Title: ");
-		String title = sc.next();
+        AdminDAO dao = new AdminDAO();
+        ArrayList<Trainer> trainers = dao.getAllTrainers();
 
-		TrainingSession ts = new TrainingSession(id, title);
+        if (trainers.isEmpty()) {
+            System.out.println("No trainers found!");
+            return;
+        }
 
-		DataStorage.sessions.put(id, ts);
+        for (Trainer t : trainers) {
+            t.display();
+            System.out.println("----------");
+        }
+    }
 
-		System.out.println("Session Created ");
-	}
+    // ─────────────────────────────────────────
+    // VIEW ALL PARTICIPANTS
+    // Before → DataStorage.participants
+    // After  → fetches from MySQL participants table via AdminDAO
+    // ─────────────────────────────────────────
+    public void viewParticipants() {
 
-	public void viewTrainers() {
-		for (Trainer t : DataStorage.trainers.values()) {
-			t.display();
-		}
-	}
+        AdminDAO dao = new AdminDAO();
+        ArrayList<Participant> participants = dao.getAllParticipants();
 
-	public void viewParticipants() {
-		for (Participant p : DataStorage.participants) {
-			p.display();
-		}
-	}
+        if (participants.isEmpty()) {
+            System.out.println("No participants found!");
+            return;
+        }
 
-	public void approveTrainer() {
+        for (Participant p : participants) {
+            p.display();
+            System.out.println("----------");
+        }
+    }
 
-		System.out.print("Trainer ID : ");
-		int id = sc.nextInt();
+    // ─────────────────────────────────────────
+    // VIEW REPORTS
+    // Before → DataStorage.sessions.values()
+    // After  → fetches all sessions + feedback from MySQL via SessionDAO
+    // ─────────────────────────────────────────
+    public void viewReports() {
 
-		Trainer t = DataStorage.trainers.get(id);
+        SessionDAO dao = new SessionDAO();
+        ArrayList<TrainingSession> sessions = dao.getAllSessions();
 
-		if (t != null) {
-			t.setApproved(true);
-			System.out.println("Trainer Approved ");
-		} else {
-			System.out.println("Trainer not found ");
-		}
-	}
+        if (sessions.isEmpty()) {
+            System.out.println("No sessions found!");
+            return;
+        }
+
+        for (TrainingSession ts : sessions) {
+            System.out.println("\nSession : " + ts.getTitle());
+
+            if (ts.getTrainer() != null) {
+                System.out.println("Trainer : " + ts.getTrainer().getName());
+            } else {
+                System.out.println("Trainer : Not Assigned");
+            }
+
+            ts.viewFeedback();
+            System.out.println("----------");
+        }
+    }
 }
