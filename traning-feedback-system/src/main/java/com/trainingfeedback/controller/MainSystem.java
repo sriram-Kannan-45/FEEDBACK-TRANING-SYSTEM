@@ -1,11 +1,14 @@
 package com.trainingfeedback.controller;
 
 import java.util.Scanner;
+import com.trainingfeedback.service.DBConnection;
 import com.trainingfeedback.service.UserService;
 
 public class MainSystem {
 
     public static void main(String[] args) {
+
+        DBConnection.initializeDatabase();
 
         Scanner sc = new Scanner(System.in);
         UserService service = new UserService();
