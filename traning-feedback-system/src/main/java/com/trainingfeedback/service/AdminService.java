@@ -1,138 +1,242 @@
 package com.trainingfeedback.service;
-import com.trainingfeedback.model.TrainingSession;
+
 import java.util.Scanner;
 import com.trainingfeedback.model.*;
 
 public class AdminService {
 
-	Scanner sc = new Scanner(System.in);
-	//1. create trainer
-	public void createTrainer() {
+    Scanner sc = new Scanner(System.in);
 
-		System.out.print("Trainer ID : ");
-		int id = sc.nextInt();
+    // 1. Create Trainer
+    public void createTrainer() {
 
-		//ONLY ID CHECK
-		if (DataStorage.trainers.containsKey(id)) {
-			System.out.println("Error: Trainer ID already exists!");
-			return;
-		}
+        System.out.print("Trainer ID   : ");
+        int id = sc.nextInt();
 
-		System.out.print("Trainer Name : ");
-		String name = sc.next();
+        if (DataStorage.trainers.containsKey(id)) {
+            System.out.println("Error: Trainer ID already exists!");
+            return;
+        }
 
-		System.out.print("Password : ");
-		String pass = sc.next();
+        System.out.print("Trainer Name : ");
+        String name = sc.next();
 
-		System.out.print("Course : ");
-		String course = sc.next();
+        System.out.print("Password     : ");
+        String pass = sc.next();
 
-		Trainer t = new Trainer(id, name, pass);
-		t.addCourse(course);
+        System.out.print("Course       : ");
+        String course = sc.next();
 
-		DataStorage.trainers.put(id, t);
+        Trainer t = new Trainer(id, name, pass);
+        t.addCourse(course);
 
-		System.out.println("Trainer Created Successfully ");
-	}
-	
-	//2. view report
-	public void viewReports(){
+        DataStorage.trainers.put(id, t);
+        System.out.println("Trainer created successfully.");
+    }
 
-	    for(TrainingSession ts : DataStorage.sessions.values()){
+    // 2. View Trainers
+    public void viewTrainers() {
+        if (DataStorage.trainers.isEmpty()) {
+            System.out.println("No trainers found.");
+            return;
+        }
+        for (Trainer t : DataStorage.trainers.values()) {
+            t.display();
+            System.out.println();
+        }
+    }
 
-	        System.out.println("\nSession: " + ts.getTitle());
+    // 3. View Participants
+    public void viewParticipants() {
+        if (DataStorage.participants.isEmpty()) {
+            System.out.println("No participants found.");
+            return;
+        }
+        for (Participant p : DataStorage.participants) {
+            p.display();
+            System.out.println();
+        }
+    }
 
-	        if(ts.getTrainer()!=null)
-	            System.out.println("Trainer: " + ts.getTrainer().getName());
+    // 4. Approve Trainer
+    public void approveTrainer() {
 
-	        ts.viewFeedback();
-	    }
-	}
-	//3. assign trainer
-	public void assignTrainer() {
+        System.out.print("Trainer ID : ");
+        int id = sc.nextInt();
 
-		System.out.print("Session ID: ");
-		int sid = sc.nextInt();
+        Trainer t = DataStorage.trainers.get(id);
 
-		System.out.print("Trainer ID: ");
-		int tid = sc.nextInt();
+        if (t == null) {
+            System.out.println("Trainer not found.");
+            return;
+        }
+        if (t.isApproved()) {
+            System.out.println("Trainer is already approved.");
+            return;
+        }
 
-		TrainingSession ts = DataStorage.sessions.get(sid);
-		Trainer t = DataStorage.trainers.get(tid);
+        t.setApproved(true);
+        System.out.println("Trainer '" + t.getName() + "' approved successfully.");
+    }
 
-		if (ts == null || t == null) {
-			System.out.println("Invalid IDs ");
-			return;
-		}
+    // 5. Create Session + Assign Trainer 
+    public void createSession() {
 
-		if (!t.isApproved()) {
-			System.out.println("Trainer not approved ");
-			return;
-		}
+        System.out.print("Session ID : ");
+        int sid = sc.nextInt();
 
-		ts.assignTrainer(t);
+        if (DataStorage.sessions.containsKey(sid)) {
+            System.out.println("Error: Session ID already exists!");
+            return;
+        }
 
-		System.out.println("Trainer Assigned ");
-	}
-	//4. create session
-	 public void createSession(){
+        System.out.print("Title      : ");
+        String title = sc.next();
+        sc.nextLine();
 
-	        System.out.print("Session ID: ");
-	        int id = sc.nextInt();
+        System.out.print("Start Date : ");
+        String start = sc.next();
+        sc.nextLine();
 
-	        System.out.print("Title: ");
-	        String title = sc.next();
+        System.out.print("End Date   : ");
+        String end = sc.next();
+        sc.nextLine();
 
-	        System.out.print("Start: ");
-	        String s = sc.next();
+        System.out.print("Time       : ");
+        String time = sc.next();
+        sc.nextLine();
 
-	        System.out.print("End: ");
-	        String e = sc.next();
+        System.out.print("Duration (hrs) : ");
+        int duration = sc.nextInt();
 
-	        System.out.print("Time: ");
-	        String t = sc.next();
+        TrainingSession ts = new TrainingSession(sid, title, start, end, time, duration);
 
-	        System.out.print("Duration: ");
-	        int d = sc.nextInt();
+        System.out.print("Assign Trainer ID (0 to skip): ");
+        int tid = sc.nextInt();
 
-	        TrainingSession ts = new TrainingSession(id,title,s,e,t,d);
+        if (tid != 0) {
+            Trainer trainer = DataStorage.trainers.get(tid);
+            if (trainer == null) {
+                System.out.println("Warning: Invalid Trainer ID. Session saved without trainer.");
+            } else if (!trainer.isApproved()) {
+                System.out.println("Warning: Trainer not approved. Session saved without trainer.");
+            } else {
+                ts.assignTrainer(trainer);
+                System.out.println("Trainer '" + trainer.getName() + "' assigned.");
+            }
+        }
 
-	        System.out.print("Trainer ID: ");
-	        int tid = sc.nextInt();
+        DataStorage.sessions.put(sid, ts);
+        System.out.println("Session created successfully.");
+    }
 
-	        Trainer tr = DataStorage.trainers.get(tid);
-	        if(tr!=null && tr.isApproved())
-	            ts.assignTrainer(tr);
+    // 6. View Session Reports
+    public void viewSessionReports() {
 
-	        DataStorage.sessions.put(id,ts);
+        if (DataStorage.sessions.isEmpty()) {
+            System.out.println("No sessions available.");
+            return;
+        }
 
-	        System.out.println("Session Created");
-	    }
-	 // 5. view trainers
-	public void viewTrainers() {
-		for (Trainer t : DataStorage.trainers.values()) {
-			t.display();
-		}
-	}
-	//6. view participants
-	public void viewParticipants() {
-		for (Participant p : DataStorage.participants) {
-			p.display();
-		}
-	}
-	//7. approve trainer
-	public void approveTrainer() {
+        for (TrainingSession ts : DataStorage.sessions.values()) {
+            System.out.println("\n============================");
+            ts.displaySession();
+            System.out.println("Feedback:");
+            ts.viewSessionFeedback();
+        }
+    }
 
-		System.out.print("Trainer ID : ");
-		int id = sc.nextInt();
+    // Session Feedback Analytics
+    public void viewSessionFeedbackAnalytics() {
 
-		Trainer t = DataStorage.trainers.get(id);
+        if (DataStorage.sessions.isEmpty()) {
+            System.out.println("No sessions available.");
+            return;
+        }
 
-		if (t != null) {
-			t.setApproved(true);
-			System.out.println("Trainer Approved ");
-		} else {
-			System.out.println("Trainer not found ");
-		}
-	}
+        System.out.println("\n===== Session Feedback Analytics =====");
+
+        for (TrainingSession ts : DataStorage.sessions.values()) {
+            System.out.println("\nSession : " + ts.getTitle()
+                    + " [" + ts.getStartDate() + " - " + ts.getEndDate() + "]");
+            System.out.println("Trainer : "
+                    + (ts.getTrainer() != null ? ts.getTrainer().getName() : "Not Assigned"));
+            ts.printFeedbackAnalytics();
+        }
+    }
+
+    // Trainer Performance Report
+    public void viewTrainerPerformance() {
+
+        System.out.print("Enter Trainer ID: ");
+        int tid = sc.nextInt();
+
+        Trainer trainer = DataStorage.trainers.get(tid);
+
+        if (trainer == null) {
+            System.out.println("Invalid Trainer ID.");
+            return;
+        }
+
+        System.out.println("\n--- Trainer Performance Report ---");
+        System.out.println("Trainer : " + trainer.getName());
+
+        double totalRating = 0;
+        double totalInstrRating = 0;
+        int count = 0;
+        int instrCount = 0;
+
+        for (TrainingSession ts : DataStorage.sessions.values()) {
+   
+            if (ts.getTrainer() != null && ts.getTrainer().getId() == tid) {
+
+                System.out.println("\n  Session: " + ts.getTitle());
+
+                for (Feedback f : ts.getFeedbackList()) {
+                    totalRating += f.getRating();
+                    count++;
+
+                    //include instructor evaluation in performance
+                    if (f.hasInstructorEval()) {
+                        totalInstrRating += f.getInstructorRating();
+                        instrCount++;
+                    }
+
+                    System.out.println("    " + f.getParticipantName()
+                            + " | Session: " + f.getRating() + "/5"
+                            + (f.hasInstructorEval()
+                               ? " | Instructor: " + f.getInstructorRating() + "/5" : "")
+                            + " | " + f.getComment());
+                }
+            }
+        }
+
+        System.out.println("\n  Summary");
+        System.out.println("  -------");
+        if (count == 0) {
+            System.out.println("  No feedback received yet.");
+        } else {
+            System.out.printf("  Total Feedbacks     : %d%n", count);
+            System.out.printf("  Avg Session Rating  : %.2f / 5.00%n", totalRating / count);
+            if (instrCount > 0)
+                System.out.printf("  Avg Instructor Rating: %.2f / 5.00%n",
+                        totalInstrRating / instrCount);
+        }
+    }
+
+    //Admin Notification for New Feedback
+    public void viewAdminNotifications() {
+
+        System.out.println("\n===== Admin Notifications =====");
+
+        if (DataStorage.adminNotifications.isEmpty()) {
+            System.out.println("No new notifications.");
+            return;
+        }
+
+        int i = 1;
+        for (String note : DataStorage.adminNotifications) {
+            System.out.println(i++ + ". " + note);
+        }
+    }
 }
