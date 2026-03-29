@@ -5,38 +5,58 @@ import java.util.ArrayList;
 public class Participant extends User {
 
     private String email;
-    private String dept;
-    private String college;
     private String course;
 
-    private ArrayList<String> feedbackList = new ArrayList<>();
+    // sessions this participant registered 
+    private ArrayList<TrainingSession> registeredSessions = new ArrayList<>();
 
-    public Participant(int id,String name,String password,
-                       String email,String dept,String college,String course) {
+    // tracks submitted feedback history
+    private ArrayList<Feedback> feedbackHistory = new ArrayList<>();
 
-        super(id,name,password);
+    // has pending session without feedback
+    private boolean feedbackReminderPending = false;
 
-        this.email=email;
-        this.dept=dept;
-        this.college=college;
-        this.course=course;
+    public Participant(int id, String name, String password, String email, String course) {
+        super(id, name, password);
+        this.email  = email;
+        this.course = course;
     }
+
+    public String getEmail()  { return email; }
+    public String getCourse() { return course; }
+
+    // Session registration
+    public ArrayList<TrainingSession> getRegisteredSessions() { return registeredSessions; }
+
+    public void registerSession(TrainingSession ts) {
+        registeredSessions.add(ts);
+    }
+
+    public boolean isRegisteredFor(TrainingSession ts) {
+        return registeredSessions.contains(ts);
+    }
+
+    // Feedback history 
+    public void addFeedbackHistory(Feedback f) {
+        feedbackHistory.add(f);
+    }
+
+    public ArrayList<Feedback> getFeedbackHistory() {
+        return feedbackHistory;
+    }
+
+    // Feedback reminder
+    public boolean isFeedbackReminderPending(){ 
+    	return feedbackReminderPending; 
+    	}
+    public void setFeedbackReminderPending(boolean b){
+    	this.feedbackReminderPending = b; 
+    	}
 
     public void display() {
-
-        System.out.println("ID: "+id);
-        System.out.println("Name: "+name);
-        System.out.println("Email: "+email);
-        System.out.println("Dept: "+dept);
-        System.out.println("College: "+college);
-        System.out.println("Course: "+course);
-    }
-
-    public void addFeedback(String feedback) {
-        feedbackList.add(feedback);
-    }
-
-    public ArrayList<String> getFeedbackList() {
-        return feedbackList;
+        System.out.println("ID     : " + id);
+        System.out.println("Name   : " + name);
+        System.out.println("Email  : " + email);
+        System.out.println("Course : " + course);
     }
 }
