@@ -6,13 +6,13 @@ import com.trainingfeedback.model.*;
 public class AdminService {
 
 	Scanner sc = new Scanner(System.in);
-
+	//1. create trainer
 	public void createTrainer() {
 
 		System.out.print("Trainer ID : ");
 		int id = sc.nextInt();
 
-		// ✅ ONLY ID CHECK
+		//ONLY ID CHECK
 		if (DataStorage.trainers.containsKey(id)) {
 			System.out.println("Error: Trainer ID already exists!");
 			return;
@@ -35,7 +35,7 @@ public class AdminService {
 		System.out.println("Trainer Created Successfully ");
 	}
 	
-	
+	//2. view report
 	public void viewReports(){
 
 	    for(TrainingSession ts : DataStorage.sessions.values()){
@@ -48,7 +48,7 @@ public class AdminService {
 	        ts.viewFeedback();
 	    }
 	}
-
+	//3. assign trainer
 	public void assignTrainer() {
 
 		System.out.print("Session ID: ");
@@ -74,39 +74,53 @@ public class AdminService {
 
 		System.out.println("Trainer Assigned ");
 	}
+	//4. create session
+	 public void createSession(){
 
-	public void createSession() {
+	        System.out.print("Session ID: ");
+	        int id = sc.nextInt();
 
-		System.out.print("Session ID: ");
-		int id = sc.nextInt();
+	        System.out.print("Title: ");
+	        String title = sc.next();
 
-		if (DataStorage.sessions.containsKey(id)) {
-			System.out.println("Session already exists!");
-			return;
-		}
+	        System.out.print("Start: ");
+	        String s = sc.next();
 
-		System.out.print("Session Title: ");
-		String title = sc.next();
+	        System.out.print("End: ");
+	        String e = sc.next();
 
-		TrainingSession ts = new TrainingSession(id, title);
+	        System.out.print("Time: ");
+	        String t = sc.next();
 
-		DataStorage.sessions.put(id, ts);
+	        System.out.print("Duration: ");
+	        int d = sc.nextInt();
 
-		System.out.println("Session Created ");
-	}
+	        TrainingSession ts = new TrainingSession(id,title,s,e,t,d);
 
+	        System.out.print("Trainer ID: ");
+	        int tid = sc.nextInt();
+
+	        Trainer tr = DataStorage.trainers.get(tid);
+	        if(tr!=null && tr.isApproved())
+	            ts.assignTrainer(tr);
+
+	        DataStorage.sessions.put(id,ts);
+
+	        System.out.println("Session Created");
+	    }
+	 // 5. view trainers
 	public void viewTrainers() {
 		for (Trainer t : DataStorage.trainers.values()) {
 			t.display();
 		}
 	}
-
+	//6. view participants
 	public void viewParticipants() {
 		for (Participant p : DataStorage.participants) {
 			p.display();
 		}
 	}
-
+	//7. approve trainer
 	public void approveTrainer() {
 
 		System.out.print("Trainer ID : ");

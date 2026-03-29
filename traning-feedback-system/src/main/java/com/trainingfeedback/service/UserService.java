@@ -7,7 +7,7 @@ import com.trainingfeedback.controller.*;
 public class UserService {
 
     Scanner sc = new Scanner(System.in);
-
+    //1 admin login
     public void adminLogin(){
 
         System.out.print("Admin ID : ");
@@ -28,7 +28,7 @@ public class UserService {
             System.out.println("Unauthorized Access");
         }
     }
-
+    //2. trainer login
     public void trainerLogin(){
 
         System.out.print("Trainer ID : ");
@@ -54,7 +54,7 @@ public class UserService {
             System.out.println("Unauthorized Access ");
         }
     }
-
+    //3. register participant
     public void registerParticipant(){
 
         System.out.print("ID : ");
@@ -69,22 +69,16 @@ public class UserService {
         System.out.print("Email : ");
         String email = sc.next();
 
-        System.out.print("Department : ");
-        String dept = sc.next();
-
-        System.out.print("College : ");
-        String college = sc.next();
-
         System.out.print("Course : ");
         String course = sc.next();
 
-        Participant p = new Participant(id,name,pass,email,dept,college,course);
+        Participant p = new Participant(id,name,pass,email,course);
 
         DataStorage.participants.add(p);
 
         System.out.println("Registration Successful ");
     }
-
+    //4. login participant
     public void loginParticipant(){
 
         System.out.print("ID : ");

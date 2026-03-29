@@ -20,7 +20,6 @@ public class MainSystem {
 
             System.out.print("Choice : ");
             int role = sc.nextInt();
-
             switch(role){
 
                 case 1:
