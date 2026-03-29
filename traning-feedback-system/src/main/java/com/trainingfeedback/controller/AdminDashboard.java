@@ -24,7 +24,8 @@ public class AdminDashboard {
 
             int choice = sc.nextInt();
 
-            switch (choice) {
+            switch (choice)
+            {
                 case 1: service.createTrainer(); break;
                 case 2: service.viewTrainers(); break;
                 case 3: service.viewParticipants(); break;

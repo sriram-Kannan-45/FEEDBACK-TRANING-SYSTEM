@@ -3,17 +3,20 @@ import com.trainingfeedback.model.TrainingSession;
 import java.util.Scanner;
 import com.trainingfeedback.model.*;
 
-public class AdminService {
+public class AdminService 
+{
 
 	Scanner sc = new Scanner(System.in);
 
-	public void createTrainer() {
+	public void createTrainer() 
+	{
 
 		System.out.print("Trainer ID : ");
 		int id = sc.nextInt();
 
-		// ✅ ONLY ID CHECK
-		if (DataStorage.trainers.containsKey(id)) {
+		
+		if (DataStorage.trainers.containsKey(id))
+		{
 			System.out.println("Error: Trainer ID already exists!");
 			return;
 		}
@@ -30,7 +33,7 @@ public class AdminService {
 		Trainer t = new Trainer(id, name, pass);
 		t.addCourse(course);
 
-		DataStorage.trainers.put(id, t);
+		DataStorage.trainers.put(id, t); 
 
 		System.out.println("Trainer Created Successfully ");
 	}

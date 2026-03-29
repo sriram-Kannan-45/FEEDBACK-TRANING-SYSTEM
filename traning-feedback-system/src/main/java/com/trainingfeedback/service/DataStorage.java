@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import com.trainingfeedback.model.*;
 
-public class DataStorage {
+public class DataStorage 
+
+{
 
     public static Admin admin = new Admin(1,"admin","admin123");
 
