@@ -37,12 +37,14 @@ public class MainSystem {
                     System.out.print("Choice : ");
                     int c = sc.nextInt();
 
-                    if (c == 1)
+                    if (c == 1) {
                         service.loginParticipant();
-                    else if (c == 2)
+                    } else if (c == 2) {
                         service.registerParticipant();
-                    else
+                    } else {
                         System.out.println("Invalid choice.");
+                    }
+
                     break;
 
                 case 4:

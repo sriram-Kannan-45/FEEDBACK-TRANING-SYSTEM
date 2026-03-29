@@ -18,27 +18,59 @@ public class AdminDashboard {
             System.out.println("3  View Students");
             System.out.println("4  Approve Trainer");
             System.out.println("5  Create Session");
-            System.out.println("6  View Session Reports");
-            System.out.println("7  Trainer Performance Report");   
-            System.out.println("8  Session Feedback Analytics");   
-            System.out.println("9  View Notifications");            
+            System.out.println("6  Assign Trainer");
+            System.out.println("7  Trainer Performance Report");
+            System.out.println("8  Session Feedback Analytics");
+            System.out.println("9  View Notifications");
             System.out.println("10 Logout");
 
             System.out.print("Choice : ");
             int choice = sc.nextInt();
 
             switch (choice) {
-                case 1:  service.createTrainer(); break;
-                case 2:  service.viewTrainers();break;
-                case 3:  service.viewParticipants();break;
-                case 4:  service.approveTrainer();break;
-                case 5:  service.createSession(); break;
-                case 6:  service.viewSessionReports();break;
-                case 7:  service.viewTrainerPerformance();break;
-                case 8:  service.viewSessionFeedbackAnalytics(); break;
-                case 9:  service.viewAdminNotifications();break;
-                case 10: System.out.println("Logged out."); return;
-                default: System.out.println("Invalid choice.");
+
+                case 1:
+                    service.createTrainer();
+                    break;
+
+                case 2:
+                    service.viewTrainers();
+                    break;
+
+                case 3:
+                    service.viewParticipants();
+                    break;
+
+                case 4:
+                    service.approveTrainer();
+                    break;
+
+                case 5:
+                    service.createSession();
+                    break;
+
+                case 6:
+                    service.assignTrainer();
+                    break;
+
+                case 7:
+                    service.viewTrainerPerformance();
+                    break;
+
+                case 8:
+                    service.viewSessionFeedbackAnalytics();
+                    break;
+
+                case 9:
+                    service.viewAdminNotifications();
+                    break;
+
+                case 10:
+                    System.out.println("Logged out successfully.");
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Try again.");
             }
         }
     }

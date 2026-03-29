@@ -20,6 +20,11 @@ public class ParticipantDashboard {
             System.out.println("4  View Feedback History");      
             System.out.println("5  Check Feedback Reminders");  
             System.out.println("6  Logout");
+            System.out.println("1 View Profile");
+            System.out.println("2 Submit Feedback"); 
+            System.out.println("3 View Feedback");
+            System.out.println("4 Logout");
+
 
             System.out.print("Choice : ");
             int choice = sc.nextInt();
@@ -31,7 +36,11 @@ public class ParticipantDashboard {
                     break;
 
                 case 2:
+
                     service.registerForSession(p);
+
+                    service.submitFeedback(p); 
+
                     break;
 
                 case 3:

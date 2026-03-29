@@ -7,97 +7,121 @@ import java.util.Set;
 
 public class TrainingSession {
 
-    private int    sessionId;
-    private String title, startDate, endDate, time;
-    private int    duration;
+    private int sessionId;
+    private String title;
+    private String startDate;
+    private String endDate;
+    private String time;
+    private int duration;
 
     private Trainer trainer;
 
-    // Tracks which participant IDs have submitted feedback
+    // Track feedback submitted participants
     private Set<Integer> feedbackGiven = new HashSet<>();
 
-    // Full Feedback objects — used for analytics + performance report
+    // Store feedbacks
     private List<Feedback> feedbackList = new ArrayList<>();
 
-    // Participants registered
+    // Participants
     private ArrayList<Participant> participants = new ArrayList<>();
 
-    public TrainingSession(int id, String title, String startDate,
-                           String endDate, String time, int duration) {
-        this.sessionId = id;
-        this.title     = title;
+    // Constructor
+    public TrainingSession(int sessionId, String title,
+                           String startDate, String endDate,
+                           String time, int duration) {
+
+        this.sessionId = sessionId;
+        this.title = title;
         this.startDate = startDate;
-        this.endDate   = endDate;
-        this.time      = time;
-        this.duration  = duration;
+        this.endDate = endDate;
+        this.time = time;
+        this.duration = duration;
     }
 
-    public int    getSessionId()  { return sessionId; }
-    public String getTitle()      { return title; }
-    public String getStartDate()  { return startDate; }
-    public String getEndDate()    { return endDate; }
-    public String getTime()       { return time; }
-    public int    getDuration()   { return duration; }
+    // Getters
+    public int getSessionId() { return sessionId; }
+    public String getTitle() { return title; }
+    public String getStartDate() { return startDate; }
+    public String getEndDate() { return endDate; }
+    public String getTime() { return time; }
+    public int getDuration() { return duration; }
 
-    public void    assignTrainer(Trainer t) { this.trainer = t; }
-    public Trainer getTrainer()             { return trainer; }
+    // Trainer
+    public void assignTrainer(Trainer t) {
+        this.trainer = t;
+    }
 
-    public ArrayList<Participant> getParticipants() { return participants; }
+    public Trainer getTrainer() {
+        return trainer;
+    }
 
-    // ---- Feedback --------------------------------------------------------
+    // Participants
+    public ArrayList<Participant> getParticipants() {
+        return participants;
+    }
 
+    // Check feedback submitted
     public boolean hasGivenFeedback(int participantId) {
         return feedbackGiven.contains(participantId);
     }
 
-   
+    // Add feedback
     public void addFeedback(Feedback f) {
         feedbackGiven.add(f.getParticipantId());
         feedbackList.add(f);
     }
 
-    public List<Feedback> getFeedbackList() { return feedbackList; }
+    // Get feedback list
+    public List<Feedback> getFeedbackList() {
+        return feedbackList;
+    }
 
-    // Session Feedback Analytics
-    public void printFeedbackAnalytics() {
+    // View feedback
+    public void viewSessionFeedback() {
+
         if (feedbackList.isEmpty()) {
-            System.out.println("  No feedback submitted yet.");
+            System.out.println("No feedback submitted yet.");
             return;
         }
-        double total = 0;
-        int count    = feedbackList.size();
-        int[] dist   = new int[6];
 
         for (Feedback f : feedbackList) {
-            int r = f.getRating();
-            total += r;
-            if (r >= 1 && r <= 5) dist[r]++;
+            System.out.println(f);
+        }
+    }
+
+    // Feedback analytics
+    public void printFeedbackAnalytics() {
+
+        if (feedbackList.isEmpty()) {
+            System.out.println("No feedback submitted yet.");
+            return;
+        }
+
+        double total = 0;
+        int count = feedbackList.size();
+
+        for (Feedback f : feedbackList) {
+            total += f.getRating();   // 🔥 important line
         }
 
         double avg = total / count;
-        System.out.printf("  Total Feedbacks : %d%n", count);
-        System.out.printf("  Average Rating  : %.2f / 5.00%n", avg);
-        System.out.println("  Rating Distribution:");
-        for (int i = 5; i >= 1; i--) {
-            String bar = "".repeat(dist[i]);
-            System.out.printf("    %d star : %s (%d)%n", i, bar, dist[i]);
-        }
+
+        System.out.println("Total Feedbacks : " + count);
+        System.out.println("Average Rating  : " + avg);
     }
 
-    // View all feedback
-    public void viewSessionFeedback() {
-        if (feedbackList.isEmpty()) {
-            System.out.println("  No feedback submitted yet.");
-            return;
-        }
-        for (Feedback f : feedbackList) {
-            System.out.println("  " + f);
-        }
-    }
-
+    // Display session
     public void displaySession() {
-        System.out.println(sessionId + " | " + title + " | " + startDate
-                + " - " + endDate + " | Trainer: "
-                + (trainer != null ? trainer.getName() : "Not Assigned"));
+
+        System.out.println("\nSession ID: " + sessionId);
+        System.out.println("Title: " + title);
+        System.out.println("Date: " + startDate + " to " + endDate);
+        System.out.println("Time: " + time);
+        System.out.println("Duration: " + duration + " hrs");
+
+        if (trainer != null)
+            System.out.println("Trainer: " + trainer.getName());
+        else
+            System.out.println("Trainer: Not Assigned");
     }
 }

@@ -3,48 +3,39 @@ package com.trainingfeedback.model;
 public class Feedback {
 
     private int participantId;
-    private String participantName;
-    private int sessionId;
-    private String sessionTitle;
-
-    private int rating;           //Submit Training Feedback
+    private int rating;
     private String comment;
 
-    // Instructor Evaluation
-    private int instructorRating;
-    private String instructorComment;
-
-    // Constructor for session feedback
-    public Feedback(int participantId, String participantName, int sessionId,
-                    String sessionTitle, int rating, String comment) {
-        this.participantId    = participantId;
-        this.participantName  = participantName;
-        this.sessionId        = sessionId;
-        this.sessionTitle     = sessionTitle;
-        this.rating           = rating;
-        this.comment          = comment;
-        this.instructorRating = 0;
-        this.instructorComment = "";
+    // Constructor
+    public Feedback(int participantId, int rating, String comment) {
+        this.participantId = participantId;
+        this.rating = rating;
+        this.comment = comment;
     }
 
-    //set instructor evaluation separately
-    public void setInstructorEvaluation(int rating, String comment) {
-        this.instructorRating  = rating;
-        this.instructorComment = comment;
+    // Getter methods
+    public int getParticipantId1() {
+        return participantId;
     }
 
-    public int getParticipantId()      { return participantId; }
-    public String getParticipantName() { return participantName; }
-    public int getSessionId()          { return sessionId; }
-    public String getSessionTitle()    { return sessionTitle; }
-    public int getRating()             { return rating; }
-    public String getComment()         { return comment; }
-    public int getInstructorRating()   { return instructorRating; }
-    public String getInstructorComment() { return instructorComment; }
-    public boolean hasInstructorEval() { return instructorRating > 0; }
+    public int getRating() {
+        return rating;
+    }
 
+    public String getComment() {
+        return comment;
+    }
+
+    // Display
     @Override
     public String toString() {
-        return "Rating: " + rating + " | By: " + participantName + " | " + comment;
+        return "Participant ID: " + participantId +
+               ", Rating: " + rating +
+               ", Comment: " + comment;
     }
+
+	public Integer getParticipantId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
