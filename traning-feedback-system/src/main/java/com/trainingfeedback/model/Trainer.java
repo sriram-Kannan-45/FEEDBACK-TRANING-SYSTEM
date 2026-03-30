@@ -6,7 +6,6 @@ public class Trainer extends User {
 
     private boolean approved = false;
     private ArrayList<String> courses = new ArrayList<>();
-
     public Trainer(int id, String name, String password) {
         super(id, name, password);
     }

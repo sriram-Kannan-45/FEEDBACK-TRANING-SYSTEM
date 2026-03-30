@@ -10,4 +10,4 @@ public class Admin extends User {
         System.out.println("Admin ID: " + id);
         System.out.println("Admin Name: " + name);
     }
-}
+}  
