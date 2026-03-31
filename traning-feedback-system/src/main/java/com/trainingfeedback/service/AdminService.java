@@ -9,15 +9,43 @@ import java.util.Scanner;
 import com.trainingfeedback.model.*;
 import com.trainingfeedback.util.ValidationUtil;
 import com.trainingfeedback.util.TableFormatter;
+import com.trainingfeedback.util.InputUtil;
 
 public class AdminService {
 
     private Scanner sc;
     private Connection conn;
+    private boolean fileMode;
 
     public AdminService() {
         this.sc = new Scanner(System.in);
         this.conn = DBConnection.getConnection();
+        this.fileMode = InputUtil.isFileMode();
+    }
+
+    private int readInt() {
+        if (fileMode) {
+            return InputUtil.nextInt();
+        }
+        try {
+            return sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Error: Invalid input. Please enter a number.");
+            sc.nextLine();
+            return -1;
+        }
+    }
+
+    private String readLine() {
+        if (fileMode) {
+            String line = InputUtil.nextLine();
+            return line != null ? line : "";
+        }
+        return sc.nextLine();
+    }
+
+    private void skipLine() {
+        if (!fileMode) sc.nextLine();
     }
 
     public void createTrainer() {
@@ -26,28 +54,23 @@ public class AdminService {
         
         while (!validId) {
             System.out.print("Trainer ID   : ");
-            try {
-                id = sc.nextInt();
-                if (id <= 0) {
-                    System.out.println("Error: ID must be a positive number.");
-                } else if (trainerExists(id)) {
-                    System.out.println("Error: Trainer ID already exists!");
-                    return;
-                } else {
-                    validId = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            id = readInt();
+            if (id <= 0) {
+                System.out.println("Error: ID must be a positive number.");
+            } else if (trainerExists(id)) {
+                System.out.println("Error: Trainer ID already exists!");
+                return;
+            } else {
+                validId = true;
             }
         }
 
-        sc.nextLine();
+        skipLine();
         String name = "";
         boolean validName = false;
         while (!validName) {
             System.out.print("Trainer Name : ");
-            name = sc.nextLine().trim();
+            name = readLine().trim();
             try {
                 ValidationUtil.validateName(name);
                 validName = true;
@@ -60,7 +83,7 @@ public class AdminService {
         boolean validPass = false;
         while (!validPass) {
             System.out.print("Password     : ");
-            pass = sc.nextLine().trim();
+            pass = readLine().trim();
             if (pass.length() < 6) {
                 System.out.println("Error: Password must be at least 6 characters.");
             } else {
@@ -72,7 +95,7 @@ public class AdminService {
         boolean validCourse = false;
         while (!validCourse) {
             System.out.print("Course       : ");
-            course = sc.nextLine().trim();
+            course = readLine().trim();
             if (course.isEmpty()) {
                 System.out.println("Error: Course cannot be empty.");
             } else {
@@ -117,7 +140,7 @@ public class AdminService {
                 TableFormatter.printTrainerRow(
                     rs.getInt("id"),
                     rs.getString("name"),
-                    "",  // Email not stored in Trainer table
+                    "",
                     rs.getString("course"),
                     rs.getBoolean("approved")
                 );
@@ -161,16 +184,11 @@ public class AdminService {
         
         while (!validId) {
             System.out.print("Trainer ID : ");
-            try {
-                id = sc.nextInt();
-                if (id <= 0) {
-                    System.out.println("Error: ID must be a positive number.");
-                } else {
-                    validId = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            id = readInt();
+            if (id <= 0) {
+                System.out.println("Error: ID must be a positive number.");
+            } else {
+                validId = true;
             }
         }
 
@@ -214,28 +232,23 @@ public class AdminService {
         
         while (!validId) {
             System.out.print("Session ID : ");
-            try {
-                sid = sc.nextInt();
-                if (sid <= 0) {
-                    System.out.println("Error: Session ID must be a positive number.");
-                } else if (sessionExists(sid)) {
-                    System.out.println("Error: Session ID already exists!");
-                    return;
-                } else {
-                    validId = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            sid = readInt();
+            if (sid <= 0) {
+                System.out.println("Error: Session ID must be a positive number.");
+            } else if (sessionExists(sid)) {
+                System.out.println("Error: Session ID already exists!");
+                return;
+            } else {
+                validId = true;
             }
         }
 
-        sc.nextLine();
+        skipLine();
         String title = "";
         boolean validTitle = false;
         while (!validTitle) {
             System.out.print("Title      : ");
-            title = sc.nextLine().trim();
+            title = readLine().trim();
             if (title.isEmpty()) {
                 System.out.println("Error: Title cannot be empty.");
             } else {
@@ -247,7 +260,7 @@ public class AdminService {
         boolean validStart = false;
         while (!validStart) {
             System.out.print("Start Date (dd/mm/yyyy): ");
-            start = sc.nextLine().trim();
+            start = readLine().trim();
             try {
                 ValidationUtil.validateDate(start);
                 validStart = true;
@@ -260,7 +273,7 @@ public class AdminService {
         boolean validEnd = false;
         while (!validEnd) {
             System.out.print("End Date (dd/mm/yyyy): ");
-            end = sc.nextLine().trim();
+            end = readLine().trim();
             try {
                 ValidationUtil.validateDate(end);
                 validEnd = true;
@@ -273,16 +286,11 @@ public class AdminService {
         boolean validDur = false;
         while (!validDur) {
             System.out.print("Duration (hrs) : ");
-            try {
-                duration = sc.nextInt();
-                if (duration <= 0) {
-                    System.out.println("Error: Duration must be a positive number.");
-                } else {
-                    validDur = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            duration = readInt();
+            if (duration <= 0) {
+                System.out.println("Error: Duration must be a positive number.");
+            } else {
+                validDur = true;
             }
         }
 
@@ -290,16 +298,11 @@ public class AdminService {
         boolean validTrainer = false;
         while (!validTrainer) {
             System.out.print("Assign Trainer ID (0 to skip): ");
-            try {
-                tid = sc.nextInt();
-                if (tid < 0) {
-                    System.out.println("Error: Trainer ID must be a positive number or 0.");
-                } else {
-                    validTrainer = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            tid = readInt();
+            if (tid < 0) {
+                System.out.println("Error: Trainer ID must be a positive number or 0.");
+            } else {
+                validTrainer = true;
             }
         }
 
@@ -492,16 +495,11 @@ public class AdminService {
         
         while (!validId) {
             System.out.print("Enter Trainer ID: ");
-            try {
-                tid = sc.nextInt();
-                if (tid <= 0) {
-                    System.out.println("Error: ID must be a positive number.");
-                } else {
-                    validId = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            tid = readInt();
+            if (tid <= 0) {
+                System.out.println("Error: ID must be a positive number.");
+            } else {
+                validId = true;
             }
         }
 
@@ -557,8 +555,211 @@ public class AdminService {
         }
     }
 
-    public void viewAdminNotifications() {
-        System.out.println("\n===== Admin Notifications =====");
-        System.out.println("No new notifications.");
+    public void deleteTrainer() {
+        System.out.print("Enter Trainer ID to delete: ");
+        int id = readInt();
+        if (id <= 0) {
+            System.out.println("Error: Invalid input.");
+            return;
+        }
+
+        if (!trainerExists(id)) {
+            System.out.println("Error: Trainer not found.");
+            return;
+        }
+
+        String query = "DELETE FROM Trainer WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            System.out.println("Trainer deleted successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to delete trainer.");
+        }
+    }
+
+    public void deleteParticipant() {
+        System.out.print("Enter Student ID to delete: ");
+        int id = readInt();
+        if (id <= 0) {
+            System.out.println("Error: Invalid input.");
+            return;
+        }
+
+        String checkQuery = "SELECT id FROM Participant WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(checkQuery)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                System.out.println("Error: Student not found.");
+                return;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Database error.");
+            return;
+        }
+
+        String deleteQuery = "DELETE FROM Participant WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(deleteQuery)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            System.out.println("Student deleted successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to delete student.");
+        }
+    }
+
+    public void deleteSession() {
+        System.out.print("Enter Session ID to delete: ");
+        int id = readInt();
+        if (id <= 0) {
+            System.out.println("Error: Invalid input.");
+            return;
+        }
+
+        if (!sessionExists(id)) {
+            System.out.println("Error: Session not found.");
+            return;
+        }
+
+        String deleteQuery = "DELETE FROM TrainingSession WHERE session_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(deleteQuery)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            System.out.println("Session deleted successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to delete session.");
+        }
+    }
+
+    public void createSurvey() {
+        System.out.println("\n--- Create New Survey ---");
+        
+        int surveyId = 1;
+        try {
+            String maxQuery = "SELECT MAX(id) FROM Survey";
+            PreparedStatement ps = conn.prepareStatement(maxQuery);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getObject(1) != null) {
+                surveyId = rs.getInt(1) + 1;
+            }
+        } catch (SQLException e) {}
+
+        System.out.println("Survey ID: " + surveyId + " (auto-generated)");
+        
+        skipLine();
+        System.out.print("Survey Title: ");
+        String title = readLine().trim();
+        
+        System.out.print("Description: ");
+        String description = readLine().trim();
+        
+        System.out.println("\n--- Add Questions ---");
+        System.out.println("Question types: RATING, TEXT, MULTIPLE_CHOICE, YES_NO");
+        
+        StringBuilder questions = new StringBuilder();
+        int qCount = 0;
+        
+        boolean addMore = true;
+        while (addMore) {
+            qCount++;
+            System.out.print("Question " + qCount + " Text: ");
+            String qText = readLine().trim();
+            
+            String qType = "";
+            boolean validType = false;
+            while (!validType) {
+                System.out.print("Question Type (RATING/TEXT/MULTIPLE_CHOICE/YES_NO): ");
+                qType = readLine().trim().toUpperCase();
+                if (qType.equals("RATING") || qType.equals("TEXT") || 
+                    qType.equals("MULTIPLE_CHOICE") || qType.equals("YES_NO")) {
+                    validType = true;
+                } else {
+                    System.out.println("Error: Invalid question type.");
+                }
+            }
+            
+            String options = "";
+            if (qType.equals("MULTIPLE_CHOICE")) {
+                System.out.print("Enter options (comma separated): ");
+                options = readLine().trim();
+            }
+            
+            if (qCount > 1) {
+                questions.append("|||");
+            }
+            questions.append(qType).append(":::").append(qText).append(":::").append(options);
+            
+            System.out.print("Add another question? (yes/no): ");
+            String response = readLine().trim().toLowerCase();
+            addMore = response.equals("yes") || response.equals("y");
+        }
+
+        if (qCount == 0) {
+            System.out.println("Error: Survey must have at least one question.");
+            return;
+        }
+
+        String insertQuery = "INSERT INTO Survey (id, title, description, active) VALUES (?, ?, ?, TRUE)";
+        try (PreparedStatement ps = conn.prepareStatement(insertQuery)) {
+            ps.setInt(1, surveyId);
+            ps.setString(2, title);
+            ps.setString(3, description);
+            ps.executeUpdate();
+
+            String[] qList = questions.toString().split("\\|\\|\\|");
+            int qId = 1;
+            for (String q : qList) {
+                String[] parts = q.split(":::");
+                String qType = parts[0];
+                String qText = parts[1];
+                String qOptions = parts.length > 2 ? parts[2] : "";
+                
+                String qInsert = "INSERT INTO SurveyQuestion (survey_id, question_id, question_text, question_type, options) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement ps2 = conn.prepareStatement(qInsert);
+                ps2.setInt(1, surveyId);
+                ps2.setInt(2, qId++);
+                ps2.setString(3, qText);
+                ps2.setString(4, qType);
+                ps2.setString(5, qOptions);
+                ps2.executeUpdate();
+            }
+            
+            System.out.println("Survey created successfully with ID: " + surveyId);
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to create survey.");
+            e.printStackTrace();
+        }
+    }
+
+    public void viewAllSurveys() {
+        System.out.println("\n========== Available Surveys ==========");
+        String query = "SELECT * FROM Survey ORDER BY id";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            boolean found = false;
+            while (rs.next()) {
+                found = true;
+                int surveyId = rs.getInt("id");
+                System.out.println("\n[ID: " + surveyId + "] " + rs.getString("title"));
+                System.out.println("Description: " + rs.getString("description"));
+                System.out.println("Status: " + (rs.getBoolean("active") ? "Active" : "Inactive"));
+            }
+            if (!found) {
+                System.out.println("No surveys available.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to retrieve surveys.");
+        }
+    }
+
+    public void clearAllData() {
+        System.out.print("Are you sure you want to clear ALL data? (yes/no): ");
+        String confirm = readLine().trim().toLowerCase();
+        if (confirm.equals("yes") || confirm.equals("y")) {
+            DBConnection.clearAllData();
+        } else {
+            System.out.println("Operation cancelled.");
+        }
     }
 }

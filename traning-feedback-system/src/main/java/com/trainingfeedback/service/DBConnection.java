@@ -115,6 +115,44 @@ public class DBConnection {
                 ")";
             stmt.execute(createRegistrationTable);
             
+            // Create Survey table
+            String createSurveyTable = 
+                "CREATE TABLE IF NOT EXISTS Survey (" +
+                "id INT PRIMARY KEY, " +
+                "title VARCHAR(200), " +
+                "description TEXT, " +
+                "active BOOLEAN DEFAULT TRUE, " +
+                "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                ")";
+            stmt.execute(createSurveyTable);
+            
+            // Create SurveyQuestion table
+            String createSurveyQuestionTable = 
+                "CREATE TABLE IF NOT EXISTS SurveyQuestion (" +
+                "survey_id INT, " +
+                "question_id INT, " +
+                "question_text TEXT, " +
+                "question_type VARCHAR(50), " +
+                "options TEXT, " +
+                "required BOOLEAN DEFAULT TRUE, " +
+                "PRIMARY KEY (survey_id, question_id), " +
+                "FOREIGN KEY (survey_id) REFERENCES Survey(id) ON DELETE CASCADE" +
+                ")";
+            stmt.execute(createSurveyQuestionTable);
+            
+            // Create SurveyResponse table
+            String createSurveyResponseTable = 
+                "CREATE TABLE IF NOT EXISTS SurveyResponse (" +
+                "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                "survey_id INT, " +
+                "participant_id INT, " +
+                "answer_text TEXT, " +
+                "submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                "FOREIGN KEY (survey_id) REFERENCES Survey(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY (participant_id) REFERENCES Participant(id)" +
+                ")";
+            stmt.execute(createSurveyResponseTable);
+            
             stmt.close();
             System.out.println("Database initialized successfully!");
             
@@ -133,6 +171,27 @@ public class DBConnection {
                 connection.close();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void clearAllData() {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
+            stmt.execute("TRUNCATE TABLE SessionRegistration");
+            stmt.execute("TRUNCATE TABLE Feedback");
+            stmt.execute("TRUNCATE TABLE TrainingSession");
+            stmt.execute("TRUNCATE TABLE Participant");
+            stmt.execute("TRUNCATE TABLE Trainer");
+            stmt.execute("TRUNCATE TABLE Survey");
+            stmt.execute("TRUNCATE TABLE SurveyQuestion");
+            stmt.execute("TRUNCATE TABLE SurveyResponse");
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 1");
+            stmt.close();
+            System.out.println("All data cleared successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error clearing data.");
             e.printStackTrace();
         }
     }

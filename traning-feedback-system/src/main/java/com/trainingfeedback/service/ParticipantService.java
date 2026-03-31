@@ -10,15 +10,43 @@ import java.util.List;
 import java.util.Scanner;
 import com.trainingfeedback.model.*;
 import com.trainingfeedback.util.TableFormatter;
+import com.trainingfeedback.util.InputUtil;
 
 public class ParticipantService {
 
     private Scanner sc;
     private Connection conn;
+    private boolean fileMode;
 
     public ParticipantService() {
         this.sc = new Scanner(System.in);
         this.conn = DBConnection.getConnection();
+        this.fileMode = InputUtil.isFileMode();
+    }
+
+    private int readInt() {
+        if (fileMode) {
+            return InputUtil.nextInt();
+        }
+        try {
+            return sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Error: Invalid input. Please enter a number.");
+            sc.nextLine();
+            return -1;
+        }
+    }
+
+    private String readLine() {
+        if (fileMode) {
+            String line = InputUtil.nextLine();
+            return line != null ? line : "";
+        }
+        return sc.nextLine();
+    }
+
+    private void skipLine() {
+        if (!fileMode) sc.nextLine();
     }
 
     public void registerForSession(Participant p) {
@@ -41,16 +69,11 @@ public class ParticipantService {
         
         while (!validId) {
             System.out.print("Enter Session ID: ");
-            try {
-                sid = sc.nextInt();
-                if (sid <= 0) {
-                    System.out.println("Error: Session ID must be a positive number.");
-                } else {
-                    validId = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            sid = readInt();
+            if (sid <= 0) {
+                System.out.println("Error: Session ID must be a positive number.");
+            } else {
+                validId = true;
             }
         }
 
@@ -172,16 +195,11 @@ public class ParticipantService {
         
         while (!validId) {
             System.out.print("Session ID to submit feedback: ");
-            try {
-                sid = sc.nextInt();
-                if (sid <= 0) {
-                    System.out.println("Error: Session ID must be a positive number.");
-                } else {
-                    validId = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            sid = readInt();
+            if (sid <= 0) {
+                System.out.println("Error: Session ID must be a positive number.");
+            } else {
+                validId = true;
             }
         }
 
@@ -206,25 +224,20 @@ public class ParticipantService {
         boolean validRating = false;
         while (!validRating) {
             System.out.print("Session Rating (1-5): ");
-            try {
-                rating = sc.nextInt();
-                if (rating < 1 || rating > 5) {
-                    System.out.println("Error: Rating must be between 1 and 5.");
-                } else {
-                    validRating = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            rating = readInt();
+            if (rating < 1 || rating > 5) {
+                System.out.println("Error: Rating must be between 1 and 5.");
+            } else {
+                validRating = true;
             }
         }
 
-        sc.nextLine();
+        skipLine();
         String comment = "";
         boolean validComment = false;
         while (!validComment) {
             System.out.print("Comment: ");
-            comment = sc.nextLine().trim();
+            comment = readLine().trim();
             if (comment.isEmpty()) {
                 System.out.println("Error: Comment cannot be empty.");
             } else {
@@ -233,7 +246,7 @@ public class ParticipantService {
         }
         
         System.out.print("Submit anonymously? (yes/no): ");
-        String anonInput = sc.nextLine().trim().toLowerCase();
+        String anonInput = readLine().trim().toLowerCase();
         boolean isAnonymous = anonInput.equals("yes") || anonInput.equals("y");
         
         if (isAnonymous) {
@@ -259,7 +272,6 @@ public class ParticipantService {
                 return;
             }
             
-            // Verify feedback was inserted
             String verifyQuery = "SELECT * FROM Feedback WHERE participant_id = ? AND session_id = ?";
             PreparedStatement verifyPs = conn.prepareStatement(verifyQuery);
             verifyPs.setInt(1, p.getId());
@@ -279,25 +291,20 @@ public class ParticipantService {
                 boolean validInstrRating = false;
                 while (!validInstrRating) {
                     System.out.print("Instructor Rating (1-5): ");
-                    try {
-                        instrRating = sc.nextInt();
-                        if (instrRating < 1 || instrRating > 5) {
-                            System.out.println("Error: Rating must be between 1 and 5.");
-                        } else {
-                            validInstrRating = true;
-                        }
-                    } catch (InputMismatchException e) {
-                        System.out.println("Error: Invalid input. Please enter a number.");
-                        sc.nextLine();
+                    instrRating = readInt();
+                    if (instrRating < 1 || instrRating > 5) {
+                        System.out.println("Error: Rating must be between 1 and 5.");
+                    } else {
+                        validInstrRating = true;
                     }
                 }
 
-                sc.nextLine();
+                skipLine();
                 String instrComment = "";
                 boolean validInstrComment = false;
                 while (!validInstrComment) {
                     System.out.print("Instructor Comment: ");
-                    instrComment = sc.nextLine().trim();
+                    instrComment = readLine().trim();
                     if (instrComment.isEmpty()) {
                         System.out.println("Error: Comment cannot be empty.");
                     } else {
@@ -440,6 +447,146 @@ public class ParticipantService {
         System.out.println("Course : " + p.getCourse());
         System.out.println("Sessions Registered : " + getRegisteredSessions(p.getId()).size());
         System.out.println("Feedbacks Submitted : " + getFeedbackCount(p.getId()));
+    }
+
+    public void takeSurvey(Participant p) {
+        System.out.println("\n--- Available Surveys ---");
+        
+        String query = "SELECT * FROM Survey WHERE active = TRUE ORDER BY id";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            List<Integer> surveyIds = new ArrayList<>();
+            int count = 0;
+            
+            while (rs.next()) {
+                count++;
+                int surveyId = rs.getInt("id");
+                surveyIds.add(surveyId);
+                System.out.println(count + ". " + rs.getString("title"));
+                System.out.println("   Description: " + rs.getString("description"));
+            }
+            
+            if (surveyIds.isEmpty()) {
+                System.out.println("No active surveys available.");
+                return;
+            }
+            
+            System.out.print("\nSelect survey number: ");
+            int selection = readInt();
+            if (selection < 1 || selection > surveyIds.size()) {
+                System.out.println("Error: Invalid selection.");
+                return;
+            }
+            
+            int selectedSurveyId = surveyIds.get(selection - 1);
+            takeSurveyQuestions(p, selectedSurveyId);
+            
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to retrieve surveys.");
+        }
+    }
+
+    private void takeSurveyQuestions(Participant p, int surveyId) {
+        String questionsQuery = "SELECT * FROM SurveyQuestion WHERE survey_id = ? ORDER BY question_id";
+        
+        try (PreparedStatement ps = conn.prepareStatement(questionsQuery)) {
+            ps.setInt(1, surveyId);
+            ResultSet rs = ps.executeQuery();
+            
+            List<String> answers = new ArrayList<>();
+            
+            while (rs.next()) {
+                int qId = rs.getInt("question_id");
+                String qText = rs.getString("question_text");
+                String qType = rs.getString("question_type");
+                String options = rs.getString("options");
+                
+                System.out.println("\nQ" + qId + ": " + qText);
+                
+                String answer = "";
+                
+                switch (qType) {
+                    case "RATING":
+                        System.out.print("Enter rating (1-5): ");
+                        int rating = 0;
+                        boolean validRating = false;
+                        while (!validRating) {
+                            rating = readInt();
+                            if (rating >= 1 && rating <= 5) {
+                                validRating = true;
+                                answer = String.valueOf(rating);
+                            } else {
+                                System.out.println("Error: Rating must be between 1 and 5.");
+                            }
+                        }
+                        break;
+                        
+                    case "YES_NO":
+                        System.out.print("Enter yes/no: ");
+                        answer = readLine().trim().toLowerCase();
+                        while (!answer.equals("yes") && !answer.equals("no") && !answer.equals("y") && !answer.equals("n")) {
+                            System.out.println("Error: Please enter yes or no.");
+                            answer = readLine().trim().toLowerCase();
+                        }
+                        break;
+                        
+                    case "MULTIPLE_CHOICE":
+                        if (options != null && !options.isEmpty()) {
+                            String[] opts = options.split(",");
+                            System.out.println("Options:");
+                            for (int i = 0; i < opts.length; i++) {
+                                System.out.println("  " + (i + 1) + ". " + opts[i].trim());
+                            }
+                            System.out.print("Select option number: ");
+                            int optSelect = 0;
+                            boolean validOpt = false;
+                            while (!validOpt) {
+                                optSelect = readInt();
+                                if (optSelect >= 1 && optSelect <= opts.length) {
+                                    validOpt = true;
+                                    answer = opts[optSelect - 1].trim();
+                                } else {
+                                    System.out.println("Error: Invalid option.");
+                                }
+                            }
+                        }
+                        break;
+                        
+                    case "TEXT":
+                    default:
+                        System.out.print("Enter your answer: ");
+                        answer = readLine().trim();
+                        while (answer.isEmpty()) {
+                            System.out.println("Error: Answer cannot be empty.");
+                            answer = readLine().trim();
+                        }
+                        break;
+                }
+                
+                answers.add(answer);
+            }
+            
+            saveSurveyResponse(p.getId(), surveyId, answers);
+            System.out.println("\nSurvey submitted successfully!");
+            
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to load survey questions.");
+            e.printStackTrace();
+        }
+    }
+
+    private void saveSurveyResponse(int participantId, int surveyId, List<String> answers) {
+        String insertQuery = "INSERT INTO SurveyResponse (survey_id, participant_id, answer_text, submitted_at) VALUES (?, ?, ?, NOW())";
+        
+        try (PreparedStatement ps = conn.prepareStatement(insertQuery)) {
+            ps.setInt(1, surveyId);
+            ps.setInt(2, participantId);
+            ps.setString(3, String.join(" | ", answers));
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to save survey response.");
+            e.printStackTrace();
+        }
     }
 
     private int getFeedbackCount(int participantId) {
