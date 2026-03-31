@@ -74,4 +74,9 @@ public class Feedback {
                "\nTrainer Response  : " + (trainerResponse != null ? trainerResponse : "Pending") +
                "\nAnonymous         : " + (anonymous ? "Yes" : "No");
     }
+
+	public double getRating() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

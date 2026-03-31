@@ -33,7 +33,7 @@ public class ParticipantService {
         
         System.out.print("New Name (current: " + p.getName() + ") : ");
         String name = sc.nextLine();
-        if (!name.isEmpty()) p.setName(name);
+        if (!name.isEmpty()) ((Participant) p).setName(name);
 
         System.out.print("New Email (current: " + p.getEmail() + ") : ");
         String email = sc.nextLine();

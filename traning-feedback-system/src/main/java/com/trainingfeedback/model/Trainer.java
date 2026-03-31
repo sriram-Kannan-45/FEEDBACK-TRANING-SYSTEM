@@ -66,4 +66,9 @@ public class Trainer extends User {
         System.out.println("Approved     : " + (approved ? "Yes" : "Pending"));
         System.out.println("Courses      : " + (courses.isEmpty() ? "No courses assigned" : courses));
     }
+
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
 }

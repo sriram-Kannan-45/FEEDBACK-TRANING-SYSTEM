@@ -98,4 +98,9 @@ public class Participant extends User {
         System.out.println("Sessions : " + registeredSessions.size());
         System.out.println("Feedback : " + feedbackHistory.size());
     }
+
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
 }
