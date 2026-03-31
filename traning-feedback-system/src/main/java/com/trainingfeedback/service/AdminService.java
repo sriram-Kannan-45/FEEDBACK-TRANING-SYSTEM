@@ -6,8 +6,17 @@ import java.util.List;
 import java.util.Scanner;
 import com.trainingfeedback.model.*;
 
+package service;
+
+import java.util.*;
+
 public class AdminService {
 
+			System.out.println("Trainer not found ");
+		}
+	}
+}
+=======
     Scanner sc = new Scanner(System.in);
     private Connection conn;
     private List<Survey> surveys;

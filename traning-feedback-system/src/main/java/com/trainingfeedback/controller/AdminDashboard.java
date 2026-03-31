@@ -5,6 +5,7 @@ import com.trainingfeedback.service.AdminService;
 
 public class AdminDashboard {
 
+
     public void menu() {
 
         Scanner sc = new Scanner(System.in);
