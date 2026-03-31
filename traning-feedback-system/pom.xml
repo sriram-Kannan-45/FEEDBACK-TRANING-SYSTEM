@@ -9,6 +9,14 @@
   <description>Web-based Training Feedback System</description>
 
   <dependencies>
+    <!-- JUnit for Testing -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.0</version>
+      <scope>test</scope>
+    </dependency>
+    
     <!-- MySQL Connector -->
     <dependency>
       <groupId>com.mysql</groupId>

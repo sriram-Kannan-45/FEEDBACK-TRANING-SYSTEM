@@ -1,0 +1,252 @@
+# Training Feedback System - Input File for Jenkins
+# Format: One input per line
+# Lines starting with # are comments
+
+# ============================================
+# MAIN MENU
+# ============================================
+# Admin Login
+1
+
+# Admin credentials
+1
+admin123
+
+# ============================================
+# ADMIN DASHBOARD - Create Trainer
+# ============================================
+# Menu: Create Trainer
+1
+
+# Trainer ID
+100
+
+# Trainer Name
+John Trainer
+
+# Password
+trainer123
+
+# Course
+Java Training
+
+# ============================================
+# ADMIN DASHBOARD - View Trainers  
+# ============================================
+# Menu: View Trainers
+2
+
+# ============================================
+# ADMIN DASHBOARD - View Students
+# ============================================
+# Menu: View Students
+3
+
+# ============================================
+# ADMIN DASHBOARD - Approve Trainer
+# ============================================
+# Menu: Approve Trainer
+4
+
+# Trainer ID to approve
+100
+
+# ============================================
+# ADMIN DASHBOARD - Create Session
+# ============================================
+# Menu: Create Session
+7
+
+# Session ID
+1
+
+# Session Title
+Java Basics
+
+# Start Date
+01/01/2025
+
+# End Date
+05/01/2025
+
+# Duration
+5
+
+# Assign Trainer ID (0 to skip)
+100
+
+# ============================================
+# ADMIN DASHBOARD - View Session Reports
+# ============================================
+# Menu: View Session Reports
+9
+
+# ============================================
+# ADMIN DASHBOARD - Trainer Performance
+# ============================================
+# Menu: Trainer Performance Report
+10
+
+# Enter Trainer ID
+100
+
+# ============================================
+# ADMIN DASHBOARD - Session Feedback Analytics
+# ============================================
+# Menu: Session Feedback Analytics
+11
+
+# ============================================
+# ADMIN DASHBOARD - Create Survey
+# ============================================
+# Menu: Create Survey
+12
+
+# Survey Title
+Course Feedback
+
+# Description
+Please provide feedback on the training
+
+# Question 1 Text
+How would you rate the course content?
+
+# Question 1 Type
+RATING
+
+# Add another question? (yes/no)
+yes
+
+# Question 2 Text
+What could be improved?
+
+# Question 2 Type
+TEXT
+
+# Add another question? (yes/no)
+no
+
+# ============================================
+# ADMIN DASHBOARD - View All Surveys
+# ============================================
+# Menu: View All Surveys
+13
+
+# ============================================
+# ADMIN DASHBOARD - Clear All Data
+# ============================================
+# Menu: Clear All Data
+14
+
+# Confirm
+no
+
+# ============================================
+# ADMIN DASHBOARD - Logout
+# ============================================
+# Menu: Logout
+15
+
+# ============================================
+# MAIN MENU - Trainer Login
+# ============================================
+# Select Trainer
+2
+
+# Trainer credentials
+100
+trainer123
+
+# ============================================
+# TRAINER DASHBOARD - View My Courses
+# ============================================
+# Menu: View My Courses
+1
+
+# ============================================
+# TRAINER DASHBOARD - View All Students
+# ============================================
+# Menu: View All Students
+2
+
+# ============================================
+# TRAINER DASHBOARD - View My Sessions
+# ============================================
+# Menu: View My Sessions
+3
+
+# ============================================
+# TRAINER DASHBOARD - Logout
+# ============================================
+# Menu: Logout
+4
+
+# ============================================
+# MAIN MENU - Student Register
+# ============================================
+# Select Student
+3
+
+# Student submenu: Register
+2
+
+# Student ID
+200
+
+# Student Name
+Jane Student
+
+# Password
+student123
+
+# Email
+jane@example.com
+
+# Course
+Java Training
+
+# ============================================
+# MAIN MENU - Student Login
+# ============================================
+# Select Student
+3
+
+# Student submenu: Login
+1
+
+# Student credentials
+200
+student123
+
+# ============================================
+# STUDENT DASHBOARD - View Profile
+# ============================================
+# Menu: View Profile
+1
+
+# ============================================
+# STUDENT DASHBOARD - Register for Session
+# ============================================
+# Menu: Register for Session
+2
+
+# Session ID
+1
+
+# ============================================
+# STUDENT DASHBOARD - Check Reminders
+# ============================================
+# Menu: Check Feedback Reminders
+5
+
+# ============================================
+# STUDENT DASHBOARD - Logout
+# ============================================
+# Menu: Logout
+7
+
+# ============================================
+# MAIN MENU - Exit
+# ============================================
+# Exit
+4

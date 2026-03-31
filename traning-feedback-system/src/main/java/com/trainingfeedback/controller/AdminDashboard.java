@@ -1,7 +1,9 @@
 package com.trainingfeedback.controller;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import com.trainingfeedback.service.AdminService;
+import com.trainingfeedback.util.InputUtil;
 
 public class AdminDashboard {
 
@@ -9,134 +11,107 @@ public class AdminDashboard {
 
         Scanner sc = new Scanner(System.in);
         AdminService service = new AdminService();
+        int choice = 0;
+        boolean fileMode = InputUtil.isFileMode();
 
         while (true) {
 
-            System.out.println("\n");
-            System.out.println("╔══════════════════════════════════════════════════════════════╗");
-            System.out.println("║              ADMIN DASHBOARD - TRAINING FEEDBACK SYSTEM      ║");
-            System.out.println("╠══════════════════════════════════════════════════════════════╣");
-            System.out.println("║  1.  Trainer Management                                      ║");
-            System.out.println("║      ├─ 1.1 Create Trainer                                    ║");
-            System.out.println("║      ├─ 1.2 View All Trainers                                ║");
-            System.out.println("║      ├─ 1.3 Approve Trainer                                  ║");
-            System.out.println("║      └─ 1.4 Deactivate Trainer                               ║");
-            System.out.println("║                                                              ║");
-            System.out.println("║  2.  Participant Management                                  ║");
-            System.out.println("║      ├─ 2.1 View All Participants                            ║");
-            System.out.println("║      ├─ 2.2 View Participant Details                         ║");
-            System.out.println("║      └─ 2.3 Track Attendance                                  ║");
-            System.out.println("║                                                              ║");
-            System.out.println("║  3.  Session Management                                      ║");
-            System.out.println("║      ├─ 3.1 Create Training Session                           ║");
-            System.out.println("║      ├─ 3.2 View All Sessions                                ║");
-            System.out.println("║      └─ 3.3 Assign Trainer to Session                        ║");
-            System.out.println("║                                                              ║");
-            System.out.println("║  4.  Survey Management                                       ║");
-            System.out.println("║      ├─ 4.1 Create Survey                                     ║");
-            System.out.println("║      ├─ 4.2 View All Surveys                                 ║");
-            System.out.println("║      ├─ 4.3 Activate Survey                                   ║");
-            System.out.println("║      └─ 4.4 Deactivate Survey                                ║");
-            System.out.println("║                                                              ║");
-            System.out.println("║  5.  Feedback & Reports                                      ║");
-            System.out.println("║      ├─ 5.1 View Session Reports                             ║");
-            System.out.println("║      ├─ 5.2 Trainer Performance Report                       ║");
-            System.out.println("║      ├─ 5.3 Session Feedback Analytics                       ║");
-            System.out.println("║      ├─ 5.4 Feedback Trends & Insights                       ║");
-            System.out.println("║      └─ 5.5 Comprehensive Report                             ║");
-            System.out.println("║                                                              ║");
-            System.out.println("║  6.  Reminders & Notifications                                ║");
-            System.out.println("║      ├─ 6.1 Send Feedback Reminders                          ║");
-            System.out.println("║      └─ 6.2 View Notifications                               ║");
-            System.out.println("║                                                              ║");
-            System.out.println("║  7.  Clear Notifications                                     ║");
-            System.out.println("║                                                              ║");
-            System.out.println("║  0.  Logout                                                  ║");
-            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+            System.out.println("\n===== Admin Dashboard =====");
+            System.out.println("1  Create Trainer");
+            System.out.println("2  View Trainers");
+            System.out.println("3  View Students");
+            System.out.println("4  Approve Trainer");
+            System.out.println("5  Delete Trainer");
+            System.out.println("6  Delete Student");
+            System.out.println("7  Create Session");
+            System.out.println("8  Delete Session");
+            System.out.println("9  View Session Reports");
+            System.out.println("10 Trainer Performance Report");
+            System.out.println("11 Session Feedback Analytics");
+            System.out.println("12 Create Survey");
+            System.out.println("13 View All Surveys");
+            System.out.println("14 Clear All Data");
+            System.out.println("15 Logout");
 
-            System.out.print("\nEnter main choice (0-7) or sub-choice (e.g., 1.1): ");
-            String choice = sc.nextLine().trim();
+            System.out.print("Choice : ");
+            
+            if (fileMode) {
+                choice = InputUtil.nextInt();
+                if (choice == -1) continue;
+            } else {
+                try {
+                    choice = sc.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Invalid input. Please enter a number.");
+                    sc.nextLine();
+                    continue;
+                }
+            }
 
             switch (choice) {
-                case "1.1":
+
+                case 1:
                     service.createTrainer();
                     break;
-                case "1.2":
+
+                case 2:
                     service.viewTrainers();
                     break;
-                case "1.3":
-                    service.approveTrainer();
-                    break;
-                case "1.4":
-                    service.deactivateTrainer();
-                    break;
 
-                case "2.1":
+                case 3:
                     service.viewParticipants();
                     break;
-                case "2.2":
-                    service.viewParticipantDetails();
-                    break;
-                case "2.3":
-                    service.trackAttendance();
+
+                case 4:
+                    service.approveTrainer();
                     break;
 
-                case "3.1":
+                case 5:
+                    service.deleteTrainer();
+                    break;
+
+                case 6:
+                    service.deleteParticipant();
+                    break;
+
+                case 7:
                     service.createSession();
                     break;
-                case "3.2":
-                    service.viewSessions();
-                    break;
-                case "3.3":
-                    service.assignTrainer();
+
+                case 8:
+                    service.deleteSession();
                     break;
 
-                case "4.1":
-                    service.createSurvey();
-                    break;
-                case "4.2":
-                    service.viewSurveys();
-                    break;
-                case "4.3":
-                    service.activateSurvey();
-                    break;
-                case "4.4":
-                    service.deactivateSurvey();
-                    break;
-
-                case "5.1":
+                case 9:
                     service.viewSessionReports();
                     break;
-                case "5.2":
+
+                case 10:
                     service.viewTrainerPerformance();
                     break;
-                case "5.3":
+
+                case 11:
                     service.viewSessionFeedbackAnalytics();
                     break;
-                case "5.4":
-                    service.viewFeedbackTrends();
-                    break;
-                case "5.5":
-                    service.generateComprehensiveReport();
+
+                case 12:
+                    service.createSurvey();
                     break;
 
-                case "6.1":
-                    service.sendFeedbackReminders();
-                    break;
-                case "6.2":
-                    service.viewAdminNotifications();
+                case 13:
+                    service.viewAllSurveys();
                     break;
 
-                case "7":
-                    service.clearNotifications();
+                case 14:
+                    service.clearAllData();
                     break;
 
-                case "0":
+                case 15:
                     System.out.println("Logged out successfully.");
                     return;
 
                 default:
-                    System.out.println("Invalid choice! Please try again.");
+                    System.out.println("Invalid choice. Try again.");
             }
         }
     }
