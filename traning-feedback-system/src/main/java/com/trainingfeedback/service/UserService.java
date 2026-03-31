@@ -9,16 +9,19 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 import com.trainingfeedback.model.*;
 import com.trainingfeedback.controller.*;
+import com.trainingfeedback.util.InputUtil;
 
 public class UserService {
 
     private Scanner sc;
     private Connection conn;
+    private boolean fileMode;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
     public UserService() {
         this.sc = new Scanner(System.in);
         this.conn = DBConnection.getConnection();
+        this.fileMode = InputUtil.isFileMode();
     }
 
     public void adminLogin() {
@@ -27,25 +30,38 @@ public class UserService {
         
         while (!validId) {
             System.out.print("Admin ID   : ");
-            try {
-                id = sc.nextInt();
-                if (id <= 0) {
-                    System.out.println("Error: ID must be a positive number.");
-                } else {
+            if (fileMode) {
+                id = InputUtil.nextInt();
+                if (id > 0) {
                     validId = true;
+                } else {
+                    System.out.println("Error: ID must be a positive number.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            } else {
+                try {
+                    id = sc.nextInt();
+                    if (id <= 0) {
+                        System.out.println("Error: ID must be a positive number.");
+                    } else {
+                        validId = true;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Invalid input. Please enter a number.");
+                    sc.nextLine();
+                }
             }
         }
 
-        sc.nextLine();
+        if (!fileMode) sc.nextLine();
         String pass = "";
         boolean validPass = false;
         while (!validPass) {
             System.out.print("Password   : ");
-            pass = sc.nextLine();
+            if (fileMode) {
+                pass = InputUtil.nextLine();
+            } else {
+                pass = sc.nextLine();
+            }
             if (pass.isEmpty()) {
                 System.out.println("Error: Password cannot be empty.");
             } else {
@@ -67,25 +83,38 @@ public class UserService {
         
         while (!validId) {
             System.out.print("Trainer ID : ");
-            try {
-                id = sc.nextInt();
-                if (id <= 0) {
-                    System.out.println("Error: ID must be a positive number.");
-                } else {
+            if (fileMode) {
+                id = InputUtil.nextInt();
+                if (id > 0) {
                     validId = true;
+                } else {
+                    System.out.println("Error: ID must be a positive number.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            } else {
+                try {
+                    id = sc.nextInt();
+                    if (id <= 0) {
+                        System.out.println("Error: ID must be a positive number.");
+                    } else {
+                        validId = true;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Invalid input. Please enter a number.");
+                    sc.nextLine();
+                }
             }
         }
 
-        sc.nextLine();
+        if (!fileMode) sc.nextLine();
         String pass = "";
         boolean validPass = false;
         while (!validPass) {
             System.out.print("Password   : ");
-            pass = sc.nextLine();
+            if (fileMode) {
+                pass = InputUtil.nextLine();
+            } else {
+                pass = sc.nextLine();
+            }
             if (pass.isEmpty()) {
                 System.out.println("Error: Password cannot be empty.");
             } else {
@@ -135,8 +164,8 @@ public class UserService {
         
         while (!validId) {
             System.out.print("ID       : ");
-            try {
-                id = sc.nextInt();
+            if (fileMode) {
+                id = InputUtil.nextInt();
                 if (id <= 0) {
                     System.out.println("Error: ID must be a positive number.");
                 } else if (participantExists(id)) {
@@ -145,18 +174,34 @@ public class UserService {
                 } else {
                     validId = true;
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            } else {
+                try {
+                    id = sc.nextInt();
+                    if (id <= 0) {
+                        System.out.println("Error: ID must be a positive number.");
+                    } else if (participantExists(id)) {
+                        System.out.println("Error: Participant ID already exists!");
+                        return;
+                    } else {
+                        validId = true;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Invalid input. Please enter a number.");
+                    sc.nextLine();
+                }
             }
         }
 
-        sc.nextLine();
+        if (!fileMode) sc.nextLine();
         String name = "";
         boolean validName = false;
         while (!validName) {
             System.out.print("Name     : ");
-            name = sc.nextLine().trim();
+            if (fileMode) {
+                name = InputUtil.nextLine().trim();
+            } else {
+                name = sc.nextLine().trim();
+            }
             if (name.isEmpty()) {
                 System.out.println("Error: Name cannot be empty.");
             } else {
@@ -168,7 +213,11 @@ public class UserService {
         boolean validPass = false;
         while (!validPass) {
             System.out.print("Password : ");
-            pass = sc.nextLine();
+            if (fileMode) {
+                pass = InputUtil.nextLine();
+            } else {
+                pass = sc.nextLine();
+            }
             if (pass.length() < 6) {
                 System.out.println("Error: Password must be at least 6 characters.");
             } else {
@@ -180,7 +229,11 @@ public class UserService {
         boolean validEmail = false;
         while (!validEmail) {
             System.out.print("Email    : ");
-            email = sc.nextLine().trim();
+            if (fileMode) {
+                email = InputUtil.nextLine().trim();
+            } else {
+                email = sc.nextLine().trim();
+            }
             if (email.isEmpty()) {
                 System.out.println("Error: Email cannot be empty.");
             } else if (!EMAIL_PATTERN.matcher(email).matches()) {
@@ -194,7 +247,11 @@ public class UserService {
         boolean validCourse = false;
         while (!validCourse) {
             System.out.print("Course   : ");
-            course = sc.nextLine().trim();
+            if (fileMode) {
+                course = InputUtil.nextLine().trim();
+            } else {
+                course = sc.nextLine().trim();
+            }
             if (course.isEmpty()) {
                 System.out.println("Error: Course cannot be empty.");
             } else {
@@ -235,25 +292,38 @@ public class UserService {
         
         while (!validId) {
             System.out.print("ID       : ");
-            try {
-                id = sc.nextInt();
-                if (id <= 0) {
-                    System.out.println("Error: ID must be a positive number.");
-                } else {
+            if (fileMode) {
+                id = InputUtil.nextInt();
+                if (id > 0) {
                     validId = true;
+                } else {
+                    System.out.println("Error: ID must be a positive number.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a number.");
-                sc.nextLine();
+            } else {
+                try {
+                    id = sc.nextInt();
+                    if (id <= 0) {
+                        System.out.println("Error: ID must be a positive number.");
+                    } else {
+                        validId = true;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Invalid input. Please enter a number.");
+                    sc.nextLine();
+                }
             }
         }
 
-        sc.nextLine();
+        if (!fileMode) sc.nextLine();
         String pass = "";
         boolean validPass = false;
         while (!validPass) {
             System.out.print("Password : ");
-            pass = sc.nextLine();
+            if (fileMode) {
+                pass = InputUtil.nextLine();
+            } else {
+                pass = sc.nextLine();
+            }
             if (pass.isEmpty()) {
                 System.out.println("Error: Password cannot be empty.");
             } else {

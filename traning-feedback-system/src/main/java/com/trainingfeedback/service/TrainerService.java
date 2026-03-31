@@ -5,16 +5,48 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 import com.trainingfeedback.model.*;
 import com.trainingfeedback.util.TableFormatter;
+import com.trainingfeedback.util.InputUtil;
 
 public class TrainerService {
 
     private Connection conn;
+    private Scanner sc;
+    private boolean fileMode;
 
     public TrainerService() {
+        this.sc = new Scanner(System.in);
         this.conn = DBConnection.getConnection();
+        this.fileMode = InputUtil.isFileMode();
+    }
+
+    private int readInt() {
+        if (fileMode) {
+            return InputUtil.nextInt();
+        }
+        try {
+            return sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Error: Invalid input. Please enter a number.");
+            sc.nextLine();
+            return -1;
+        }
+    }
+
+    private String readLine() {
+        if (fileMode) {
+            String line = InputUtil.nextLine();
+            return line != null ? line : "";
+        }
+        return sc.nextLine();
+    }
+
+    private void skipLine() {
+        if (!fileMode) sc.nextLine();
     }
 
     public void viewCourses(Trainer t) {
