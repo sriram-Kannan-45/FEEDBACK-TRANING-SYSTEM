@@ -4,8 +4,9 @@ import com.trainingfeedback.model.*;
 
 public class DataStorage {
 
-    
-    public static ArrayList<Participant> participants = new ArrayList<>();
-    public static ArrayList<String> surveys = new ArrayList<>();
-   
+    public static Admin admin = new Admin(1, "admin", "admin123");
+
+    public static void notifyAdmin(String message) {
+        System.out.println("[Admin Notification] " + message);
+    }
 }
