@@ -14,7 +14,7 @@ public class Feedback {
     }
 
     // Getter methods
-    public int getParticipantId1() {
+    public int getParticipantId() {
         return participantId;
     }
 
@@ -33,16 +33,4 @@ public class Feedback {
                ", Rating: " + rating +
                ", Comment: " + comment;
     }
-
-<<<<<<< HEAD
-	public double getRating() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
-=======
-	public Integer getParticipantId() {
-		return participantId;
-	}
-}
->>>>>>> c3c1028524e79d09466a10259b218f1719fb22bd

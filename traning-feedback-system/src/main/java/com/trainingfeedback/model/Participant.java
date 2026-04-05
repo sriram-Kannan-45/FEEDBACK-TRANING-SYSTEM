@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 public class Participant extends User {
 
-    private String email;
-    private String course;
+	private String name;
+	private String email;
+	private String dept;
+	private String college;
+	private String course;
 
     // sessions this participant registered 
     private ArrayList<TrainingSession> registeredSessions = new ArrayList<>();
@@ -61,6 +64,26 @@ public class Participant extends User {
     }
 
 	public void setName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getDept() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setEmail(String email2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getCollege() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setDept(String dept) {
 		// TODO Auto-generated method stub
 		
 	}

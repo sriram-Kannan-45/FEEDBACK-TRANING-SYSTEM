@@ -42,7 +42,7 @@ public class ParticipantDashboard {
 
             switch (choice) {
                 case 1:
-                    service.viewProfile(p);
+                    service.viewProfile1(p);
                     break;
                 case 2:
                     service.registerForSession(p);
