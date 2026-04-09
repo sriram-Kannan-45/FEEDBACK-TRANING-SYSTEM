@@ -34,4 +34,9 @@ public class Trainer extends User {
         System.out.println("Approved : " + approved);
         System.out.println("Courses : " + courses);
     }
+
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
 }

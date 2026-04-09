@@ -14,7 +14,7 @@ public class Feedback {
     }
 
     // Getter methods
-    public int getParticipantId1() {
+    public int getParticipantId() {
         return participantId;
     }
 
@@ -33,8 +33,4 @@ public class Feedback {
                ", Rating: " + rating +
                ", Comment: " + comment;
     }
-
-	public Integer getParticipantId() {
-		return participantId;
-	}
 }
