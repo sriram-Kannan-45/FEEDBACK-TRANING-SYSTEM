@@ -38,6 +38,17 @@ public class AdminService {
         this.fileMode = InputUtil.isFileMode();
     }
 
+    /*
+    Method: readInt()
+    From: AdminService
+    Called By: createTrainer, viewTrainers
+    
+    Use: Reads integer input from console or file
+    
+    Flow: AdminService → InputUtil
+    
+    OOPS: Encapsulation
+    */
     private int readInt() {
         if (fileMode) {
             return InputUtil.nextInt();
@@ -51,6 +62,17 @@ public class AdminService {
         }
     }
 
+    /*
+    Method: readLine()
+    From: AdminService
+    Called By: createTrainer
+    
+    Use: Reads string input from console or file
+    
+    Flow: AdminService → InputUtil
+    
+    OOPS: Encapsulation
+    */
     private String readLine() {
         if (fileMode) {
             String line = InputUtil.nextLine();
@@ -59,10 +81,32 @@ public class AdminService {
         return sc.nextLine();
     }
 
+    /*
+    Method: skipLine()
+    From: AdminService
+    Called By: createTrainer
+    
+    Use: Skips remaining line input
+    
+    Flow: AdminService
+    
+    OOPS: Encapsulation
+    */
     private void skipLine() {
         if (!fileMode) sc.nextLine();
     }
 
+    /*
+    Method: createTrainer()
+    From: AdminService
+    Called By: AdminDashboard
+    
+    Use: Creates new trainer account
+    
+    Flow: Main → AdminDashboard → AdminService → DBConnection → DB
+    
+    OOPS: Abstraction
+    */
     public void createTrainer() {
         int id = 0;
         boolean validId = false;
@@ -144,6 +188,17 @@ public class AdminService {
         }
     }
 
+    /*
+    Method: viewTrainers()
+    From: AdminService
+    Called By: AdminDashboard
+    
+    Use: Displays all trainers from database
+    
+    Flow: AdminDashboard → AdminService → DBConnection → DB
+    
+    OOPS: Abstraction
+    */
     public void viewTrainers() {
         String query = "SELECT * FROM Trainer";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -169,6 +224,14 @@ public class AdminService {
         }
     }
 
+    /*
+    Method: viewParticipants()
+    From: AdminService
+    Called By: AdminDashboard
+    Use: Displays all participants from DB
+    Flow: AdminDashboard → AdminService → DB
+    OOPS: Abstraction
+    */
     public void viewParticipants() {
         String query = "SELECT * FROM Participant";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -193,6 +256,14 @@ public class AdminService {
         }
     }
 
+    /*
+    Method: approveTrainer()
+    From: AdminService
+    Called By: AdminDashboard
+    Use: Approves trainer account
+    Flow: AdminDashboard → AdminService → DB
+    OOPS: Abstraction
+    */
     public void approveTrainer() {
         int id = 0;
         boolean validId = false;
