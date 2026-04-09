@@ -1,3 +1,10 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.controller;
 
 import java.util.InputMismatchException;
@@ -6,6 +13,15 @@ import com.trainingfeedback.model.Participant;
 import com.trainingfeedback.service.ParticipantService;
 import com.trainingfeedback.util.InputUtil;
 
+/*
+Class: ParticipantDashboard
+Module: Participant
+By: Tamilarasu
+
+Purpose: Controller for participant menu navigation
+Flow: Main → ParticipantDashboard → ParticipantService → DBConnection → DB
+OOPS: Abstraction - hides service implementation
+*/
 public class ParticipantDashboard {
 
     public void menu(Participant p) {

@@ -1,3 +1,10 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.service;
 
 import java.sql.Connection;
@@ -12,6 +19,14 @@ import com.trainingfeedback.model.*;
 import com.trainingfeedback.util.TableFormatter;
 import com.trainingfeedback.util.InputUtil;
 
+/*
+Class: TrainerService
+Module: Trainer
+By: Shamiha
+
+Purpose: Handles trainer operations (view sessions, feedback, participants)
+OOPS: Encapsulation - private fields, Abstraction - hides JDBC
+*/
 public class TrainerService {
 
     private Connection conn;

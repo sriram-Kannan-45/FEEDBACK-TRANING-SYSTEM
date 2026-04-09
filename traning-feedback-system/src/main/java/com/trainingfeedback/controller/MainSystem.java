@@ -1,3 +1,17 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+
+CMD: javac -d . *.java | java Main
+
+Team:
+Admin → Mylambikai
+Trainer → Shamiha
+Participant → Tamilarasu
+JDBC → Sriram K
+
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.controller;
 
 import java.util.InputMismatchException;
@@ -6,6 +20,15 @@ import com.trainingfeedback.service.DBConnection;
 import com.trainingfeedback.service.UserService;
 import com.trainingfeedback.util.InputUtil;
 
+/*
+Class: MainSystem
+Module: Main Entry Point
+
+Purpose: Entry point of the application, displays main menu
+CMD: java com.trainingfeedback.controller.MainSystem
+Flow: Main → UserService → Module → Service → DB
+OOPS: Abstraction - hides service implementation
+*/
 public class MainSystem {
 
     public static void main(String[] args) {

@@ -1,5 +1,19 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.model;
 
+/*
+Class: Feedback
+Module: Model
+
+Purpose: Stores participant feedback for sessions
+OOPS: Encapsulation - private fields + getters/setters
+*/
 public class Feedback {
 
     private int participantId;

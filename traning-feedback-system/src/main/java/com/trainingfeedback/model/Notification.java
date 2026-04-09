@@ -1,8 +1,22 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+Class: Notification
+Module: Model
+
+Purpose: Stores notification data for reminders
+OOPS: Encapsulation - private fields + getters/setters
+*/
 public class Notification {
 
     private int notificationId;

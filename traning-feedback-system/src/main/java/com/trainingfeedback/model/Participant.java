@@ -1,7 +1,22 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.model;
 
 import java.util.ArrayList;
 
+/*
+Class: Participant
+Module: Participant
+By: Tamilarasu
+
+Purpose: Participant model extending User
+OOPS: Inheritance - extends User, Encapsulation - private email, course, sessions
+*/
 public class Participant extends User {
 
     private String email;

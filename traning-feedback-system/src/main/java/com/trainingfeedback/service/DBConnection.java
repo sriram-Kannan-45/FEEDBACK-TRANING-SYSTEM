@@ -1,3 +1,10 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.service;
 
 import java.sql.Connection;
@@ -5,6 +12,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/*
+Class: DBConnection
+Module: JDBC/Database
+By: Sriram K
+
+Purpose: Manages MySQL database connection
+JDBC: Connection, DriverManager, Statement
+OOPS: Encapsulation - private static connection, Singleton pattern
+*/
 public class DBConnection {
     
     private static final String URL = "jdbc:mysql://localhost:3306/feedback";

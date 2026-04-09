@@ -1,5 +1,19 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.util;
 
+/*
+Class: TableFormatter
+Module: Utility
+
+Purpose: Formats console output in table format
+OOPS: Encapsulation - static methods, Abstraction - hides formatting logic
+*/
 public class TableFormatter {
 
     public static void printTrainerTableHeader() {

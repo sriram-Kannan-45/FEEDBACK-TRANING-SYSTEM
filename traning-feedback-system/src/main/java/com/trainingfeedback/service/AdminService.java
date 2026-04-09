@@ -1,3 +1,10 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.service;
 
 import java.sql.Connection;
@@ -11,6 +18,14 @@ import com.trainingfeedback.util.ValidationUtil;
 import com.trainingfeedback.util.TableFormatter;
 import com.trainingfeedback.util.InputUtil;
 
+/*
+Class: AdminService
+Module: Admin
+By: Mylambikai
+
+Purpose: Handles admin operations (create trainer, session, reports)
+OOPS: Encapsulation - private fields, Abstraction - hides JDBC, Inheritance - extends UserService patterns
+*/
 public class AdminService {
 
     private Scanner sc;

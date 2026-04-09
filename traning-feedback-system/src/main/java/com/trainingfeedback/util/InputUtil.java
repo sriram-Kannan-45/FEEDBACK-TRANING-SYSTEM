@@ -1,3 +1,10 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.util;
 
 import java.io.BufferedReader;
@@ -6,6 +13,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+Class: InputUtil
+Module: Utility
+
+Purpose: Handles file-based input for automated testing
+OOPS: Encapsulation - private static fields, Abstraction - hides file reading
+*/
 public class InputUtil {
 
     private static List<String> inputs = new ArrayList<>();

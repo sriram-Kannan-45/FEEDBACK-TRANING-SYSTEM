@@ -1,3 +1,10 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.service;
 
 import java.sql.Connection;
@@ -11,6 +18,14 @@ import com.trainingfeedback.model.*;
 import com.trainingfeedback.controller.*;
 import com.trainingfeedback.util.InputUtil;
 
+/*
+Class: UserService
+Module: Authentication
+By: Sriram K (JDBC), All Modules
+
+Purpose: Handles login/register for Admin, Trainer, Participant
+OOPS: Encapsulation - private fields + getters, Abstraction - hides JDBC
+*/
 public class UserService {
 
     private Scanner sc;

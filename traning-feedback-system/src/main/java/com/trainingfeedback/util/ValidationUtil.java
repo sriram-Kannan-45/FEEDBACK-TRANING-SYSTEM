@@ -1,8 +1,22 @@
+/*
+Project: Training Feedback System
+Type: Console-Based Java Application
+CMD: java Main
+Team: Admin→Mylambikai, Trainer→Shamiha, Participant→Tamilarasu, JDBC→Sriram K
+Flow: Main → Service → DAO → DB
+*/
 package com.trainingfeedback.util;
 
 import java.util.regex.Pattern;
 import com.trainingfeedback.exception.InvalidInputException;
 
+/*
+Class: ValidationUtil
+Module: Utility
+
+Purpose: Validates user input (name, email, password, date, time)
+OOPS: Encapsulation - private static patterns, Abstraction - static methods
+*/
 public class ValidationUtil {
 
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z\\s]+$");
