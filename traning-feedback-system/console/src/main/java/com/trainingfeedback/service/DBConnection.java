@@ -7,9 +7,11 @@ import java.sql.Statement;
 
 public class DBConnection {
     
-    private static final String URL = "jdbc:mysql://localhost:3306/feedback";
+	private static final String URL =
+			"jdbc:mysql://127.0.0.1:3306/trainingfeedback?useSSL=false&serverTimezone=UTC";
+
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "1234";
+    private static final String PASSWORD = "root";
     
     private static Connection connection;
     

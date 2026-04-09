@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Participant (
 );
 
 -- TrainingSession table
-CREATE TABLE IF NOT EXISTS TrainingSession (
+CREATE TABLE IF	 NOT EXISTS TrainingSession (
     session_id INT PRIMARY KEY,
     title VARCHAR(200) NOT NULL,
     description TEXT,
